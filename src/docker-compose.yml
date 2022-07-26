@@ -14,10 +14,10 @@ services:
       - ANY
     tty: false
 
-  lusid-sdk-python-preview-test:
+  lusid-sdk-examples-python-test:
     build: .
-    container_name: lusid-sdk-python-preview-test
-    image: finbourne/lusid-sdk-python-preview-test
+    container_name: lusid-sdk-examples-python-test
+    image: finbourne/lusid-sdk-examples-python-test
     environment:
       - FBN_CLIENT_ID
       - FBN_CLIENT_SECRET

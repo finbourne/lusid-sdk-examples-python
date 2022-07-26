@@ -37,6 +37,7 @@ REQUIRES = [
     "requests >= 2.27.1",
     "six >= 1.10",
     "urllib3 >= 1.26.9",
+    "lusid-sdk-preview >= 0.11.*"
 ]
 
 version = {}
@@ -45,10 +46,10 @@ with open("./lusid/__version__.py") as fp:
 
 setup(
 
-    name='lusid-sdk-preview',
+    name='lusid-sdk-examples',
     version=version['__version__'],
-    description='Python Preview SDK for LUSID API',
-    url='https://github.com/finbourne/lusid-sdk-python-preview',
+    description='Python Examples for LUSID API',
+    url='https://github.com/finbourne/lusid-sdk-examples-python',
     author='FINBOURNE Technology',
     author_email='engineering@finbourne.com',
     license='MIT',
