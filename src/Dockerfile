@@ -14,4 +14,4 @@ ENV FBN_LUSID_API_URL ${FBN_LUSID_API_URL}
 ENV FBN_LUSID_ACCESS_TOKEN ${FBN_LUSID_ACCESS_TOKEN}
 
 #CMD /bin/bash
-ENTRYPOINT PYTHONPATH=/usr/src/:/usr/src/tests python -m unittest discover -v
+ENTRYPOINT PYTHONPATH=/usr/src/:/usr/src/tutorials python -m unittest discover -v
