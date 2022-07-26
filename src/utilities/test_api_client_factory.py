@@ -69,6 +69,7 @@ class ApiFactory(unittest.TestCase):
             factory.build(api_to_build)
         self.assertEqual(error.exception.args[0], error_message)
 
+    @unittest.skip("requires secrets.json file, run explicitly")
     def test_get_api_with_token(self):
         token, refresh_token = tu.get_okta_tokens(CredentialsSource.secrets_path())
         factory = ApiClientFactory(
@@ -102,6 +103,7 @@ class ApiFactory(unittest.TestCase):
         self.assertIsInstance(api, InstrumentsApi)
         self.validate_api(api)
 
+    @unittest.skip("requires secrets.json file, run explicitly")
     def test_get_api_with_token_url_as_env_var(self):
         token, refresh_token = tu.get_okta_tokens(CredentialsSource.secrets_path())
         with patch.dict('os.environ', {"FBN_LUSID_API_URL": source_config_details["api_url"]}, clear=True):
