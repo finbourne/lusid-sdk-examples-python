@@ -16,7 +16,7 @@ services:
 
   lusid-sdk-examples-python-test:
     build: .
-    container_name:lusid-sdk-examples-python-test
+    container_name: lusid-sdk-examples-python-test
     image: finbourne/lusid-sdk-examples-python-test
     environment:
       - FBN_CLIENT_ID
