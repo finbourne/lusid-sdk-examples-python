@@ -11,7 +11,7 @@ class CredentialsSource:
 
     @classmethod
     def config_keys_path(cls) -> Path:
-        return Path(__file__).parent.parent.parent.joinpath('lusid/utilities/config_keys.json')
+        return Path(__file__).parent.parent.parent.joinpath('/utilities/config_keys.json')
 
     @classmethod
     def optional_config(cls) -> Path:
