@@ -32,9 +32,9 @@ jobs:
           echo "env variables for MASTER have been set"
           echo "Changing directory into src directory"
           cd src         
-          echo "Running the tests..."
+          echo "Running the build..."
           docker-compose up --abort-on-container-exit
-          echo "Tests COMPLETED"
+          echo "Build COMPLETED"
 
       - name: Slack notification
         uses: 8398a7/action-slack@v3
