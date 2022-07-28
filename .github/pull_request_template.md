@@ -2,7 +2,6 @@
 
 - [ ] Read the [contributing guidelines](../blob/master/docs/CONTRIBUTING.md)
 - [ ] Tests pass
-- [ ] Raised the PR against the `develop` branch
 
 # Description of the PR
 

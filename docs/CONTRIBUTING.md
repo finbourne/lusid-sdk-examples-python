@@ -23,7 +23,7 @@ If you have a change that you would like to contribute, please find or open an i
 1. Fork the repository to your own GitHub account, this [GitHub guide](https://help.github.com/en/articles/fork-a-repo) describes how to do this.
 1. Clone the project to your local machine
 1. Make your changes and ensure that all the tests successfully pass.
-1. Update your local repository and rebase your changes on top of the latest `develop` branch. We prefer that your changes are squashed into a single commit.
+1. Update your local repository and rebase your changes on top of the latest `master` branch. We prefer that your changes are squashed into a single commit.
 1. Push you changes to your fork
 1. Submit a [pull request](https://help.github.com/en/articles/about-pull-requests) to the main repository
 
