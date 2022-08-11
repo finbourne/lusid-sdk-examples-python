@@ -118,7 +118,7 @@ class ApiFactory(unittest.TestCase):
             self.assertIsInstance(api, InstrumentsApi)
             self.validate_api(api)
 
-    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is None, "Skip if token not present")
     def test_none_secrets_param_but_good_env_pat(self):
 
         with patch.dict(self.os_environ_dict_str, self.get_pat_env_var(), clear=True):
