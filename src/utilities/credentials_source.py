@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+import lusid.utilities
 
 
 class CredentialsSource:
@@ -11,7 +12,7 @@ class CredentialsSource:
 
     @classmethod
     def config_keys_path(cls) -> Path:
-        return Path(__file__).parent.joinpath('config_keys.json')
+        return Path(lusid.utilities.__file__).parent.joinpath('config_keys.json')
         
     @classmethod
     def optional_config(cls) -> Path:
@@ -69,6 +70,12 @@ class CredentialsSource:
         if cls.fetch_pat() is not None:
             vars_pat = {
                 "access_token": cls.fetch_pat(),
+                "api_url": vars.get("api_url", None),
+                "token_url": vars.get("token_url", None),
+                "username": vars.get("username", None),
+                "password": vars.get("password", None),
+                "client_id": vars.get("client_id", None),
+                "client_secret": vars.get("client_secret", None),
                 "api_url": vars.get("api_url", None)
             }
             return vars_pat

@@ -139,10 +139,6 @@ class Valuation(unittest.TestCase):
         #   do the aggregation
         aggregation = self.aggregation_api.get_valuation(valuation_request=valuation_request)
 
-        for item in aggregation.data:
-            print("\t{}\t{}\t{}".format(item["Instrument/default/Name"], item["Proportion(Holding/default/PV)"],
-                                        item["Sum(Holding/default/PV)"]))
-
         # Asserts
         self.assertEqual(len(aggregation.data),3)
         self.assertEqual(aggregation.data[0]["Sum(Holding/default/PV)"], 10000)

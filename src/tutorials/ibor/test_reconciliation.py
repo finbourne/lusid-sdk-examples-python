@@ -161,10 +161,6 @@ class Reconciliation(unittest.TestCase):
 
         breaks = self.reconciliations_api.reconcile_holdings(portfolios_reconciliation_request=reconciliation_request)
 
-        for rec_break in breaks.values:
-            print("{}\t{}\t{}".format(rec_break.instrument_uid, rec_break.difference_units,
-                                      rec_break.difference_cost.amount))
-
         rec_map = {b.instrument_uid: b for b in breaks.values}
 
         self.assertEqual(-1500, rec_map[self.instrument_ids[0]].difference_units)
