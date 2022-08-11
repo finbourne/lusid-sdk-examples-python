@@ -209,7 +209,7 @@ class ApiFactory(unittest.TestCase):
 
     def test_get_api_with_correlation_id_from_env_var(self):
 
-        env_vars = {config_keys[key]["env"]: value for key, value in source_config_details.items() if value is not None}
+        env_vars = get_env_vars_without_pat()
         env_vars["FBN_CORRELATION_ID"] = "env-correlation-id"
 
         with patch.dict('os.environ', env_vars, clear=True):
@@ -222,7 +222,7 @@ class ApiFactory(unittest.TestCase):
 
     def test_get_api_with_correlation_id_from_param(self):
 
-        env_vars = {config_keys[key]["env"]: value for key, value in source_config_details.items() if value is not None}
+        env_vars = get_env_vars_without_pat()
 
         with patch.dict('os.environ', env_vars, clear=True):
             factory = ApiClientFactory(
