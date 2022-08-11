@@ -38,7 +38,7 @@ class ApiFactory(unittest.TestCase):
         env_vars_wout_pat = {k: env_vars[k] for k in env_vars if k != "FBN_ACCESS_TOKEN"}
         return env_vars_wout_pat
 
-    @unittest.skipIf(not CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run if no token present")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is None, "Skip if token not present")
     def test_bad_pat_in_param_but_good_pat_in_env_vars(self):
 
         with patch.dict(self.os_environ_dict_str, self.get_pat_env_var(), clear=True):
@@ -53,7 +53,7 @@ class ApiFactory(unittest.TestCase):
 
                 self.assertEquals(401, e.status)
 
-    @unittest.skipIf(not CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run if no token present")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is None, "Skip if token not present")
     def test_bad_secrets_file_in_param_but_good_pat_in_env_vars(self):
 
         all_env_vars = self.get_env_vars_without_pat()
@@ -72,7 +72,7 @@ class ApiFactory(unittest.TestCase):
                     context_manager.output[1],
                 )
 
-    @unittest.skipIf(not CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run if no token present")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is None, "Skip if token not present")
     def test_good_env_pat_but_no_param_pat(self):
 
         with patch.dict(self.os_environ_dict_str, self.get_pat_env_var(), clear=True):
@@ -81,7 +81,7 @@ class ApiFactory(unittest.TestCase):
             self.assertIsInstance(api, InstrumentsApi)
             self.validate_api(api)
 
-    @unittest.skipIf(not CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run if no token present")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is None, "Skip if token not present")
     def test_no_env_pat_but_good_param_pat(self):
 
         with patch.dict(self.os_environ_dict_str, {"FBN_LUSID_API_URL": self.source_config_details["api_url"]},
@@ -91,7 +91,7 @@ class ApiFactory(unittest.TestCase):
             self.assertIsInstance(api, InstrumentsApi)
             self.validate_api(api)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_no_pat_but_good_secrets_file_as_param(self):
 
         with patch.dict(self.os_environ_dict_str, self.get_env_vars_without_pat(), clear=True):
@@ -100,7 +100,7 @@ class ApiFactory(unittest.TestCase):
             self.assertIsInstance(api, InstrumentsApi)
             self.validate_api(api)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_none_str_param_pat_but_good_secrets_envs(self):
 
         with patch.dict(self.os_environ_dict_str, self.get_env_vars_without_pat(), clear=True):
@@ -109,7 +109,7 @@ class ApiFactory(unittest.TestCase):
             self.assertIsInstance(api, InstrumentsApi)
             self.validate_api(api)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_none_param_pat_but_good_secrets_envs(self):
 
         with patch.dict(self.os_environ_dict_str, self.get_env_vars_without_pat(), clear=True):
@@ -118,7 +118,7 @@ class ApiFactory(unittest.TestCase):
             self.assertIsInstance(api, InstrumentsApi)
             self.validate_api(api)
 
-    @unittest.skipIf(not CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run if no token present")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_none_secrets_param_but_good_env_pat(self):
 
         with patch.dict(self.os_environ_dict_str, self.get_pat_env_var(), clear=True):

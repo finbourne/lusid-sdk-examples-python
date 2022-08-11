@@ -18,7 +18,7 @@ source_config_details, config_keys = CredentialsSource.fetch_credentials(), Cred
 
 
 
-@unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+@unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
 class TokenRefresh(unittest.TestCase):
 
     @classmethod

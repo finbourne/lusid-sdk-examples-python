@@ -69,7 +69,7 @@ class ApiFactory(unittest.TestCase):
             factory.build(api_to_build)
         self.assertEqual(error.exception.args[0], error_message)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_get_api_with_token(self):
         token, refresh_token = tu.get_okta_tokens(CredentialsSource.secrets_path())
         factory = ApiClientFactory(
@@ -81,7 +81,7 @@ class ApiFactory(unittest.TestCase):
         self.assertIsInstance(api, InstrumentsApi)
         self.validate_api(api)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_get_api_with_none_token(self):
         factory = ApiClientFactory(
             token=None,
@@ -93,7 +93,7 @@ class ApiFactory(unittest.TestCase):
         self.assertIsInstance(api, InstrumentsApi)
         self.validate_api(api)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_get_api_with_str_none_token(self):
         factory = ApiClientFactory(
             token=RefreshingToken(),
@@ -105,7 +105,7 @@ class ApiFactory(unittest.TestCase):
         self.assertIsInstance(api, InstrumentsApi)
         self.validate_api(api)
 
-    @unittest.skipIf(not CredentialsSource.fetch_credentials().__contains__("app_name"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_get_api_with_token_url_as_env_var(self):
         token, refresh_token = tu.get_okta_tokens(CredentialsSource.secrets_path())
         with patch.dict('os.environ', {"FBN_LUSID_API_URL": source_config_details["api_url"]}, clear=True):
@@ -251,7 +251,7 @@ class ApiFactory(unittest.TestCase):
         self.assertFalse(api_factory.api_client.configuration.tcp_keep_alive)
         self.assertIsInstance(api_factory.api_client.rest_client.pool_manager, (PoolManager, ProxyManager))
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_use_apifactory_with_id_provider_response_handler(self):
         """
         Ensures that an id_provider_response handler that is passed to the ApiClientFactory can be used during
@@ -275,7 +275,7 @@ class ApiFactory(unittest.TestCase):
 
             self.assertGreater(len(responses), 0)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_use_apifactory_multiple_threads(self):
 
         with patch.dict('os.environ', self.get_env_vars_without_pat(), clear=True):

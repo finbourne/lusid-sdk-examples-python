@@ -71,7 +71,6 @@ class ApiConfigurationLoaderTests(unittest.TestCase):
             # Ensure that the config is populated as expected
             self.assert_config_values(config, source_config_details)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
     def test_missing_env_vars_uses_config_file(self):
         """
         This tests loading the configuration details in multiple different ways
@@ -99,7 +98,6 @@ class ApiConfigurationLoaderTests(unittest.TestCase):
             # Ensure that the config is populated as expected
             self.assert_config_values(config, source_config_details)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
     def test_missing_config_file_vars_uses_env_vars(self):
         """
         This tests loading the configuration details in multiple different ways
@@ -131,7 +129,7 @@ class ApiConfigurationLoaderTests(unittest.TestCase):
             # Ensure that the config is populated as expected
             self.assert_config_values(config, source_config_details)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_load_from_config_file_only(self):
         """
         This tests loading the configuration details in multiple different ways

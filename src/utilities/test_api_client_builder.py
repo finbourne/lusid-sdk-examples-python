@@ -59,7 +59,7 @@ class ApiClientBuilderTests(unittest.TestCase):
                                   f"please ensure that you have provided them directly, via a secrets file or environment "
                                   f"variables")
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_build_client_no_token_provided_config_takes_precedence(self):
         """
         This test builds an ApiClient from a provided secrets.json file. The call to generate the token is mocked here.
@@ -98,7 +98,7 @@ class ApiClientBuilderTests(unittest.TestCase):
         self.assertEqual(client.configuration.host, source_config_details["api_url"])
         self.assertIsInstance(client, ApiClient)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_build_client_no_token_provided_file_only(self):
         """
         This test builds an ApiClient from a provided secrets.json file. The call to generate the token is mocked here.
@@ -182,7 +182,7 @@ class ApiClientBuilderTests(unittest.TestCase):
         self.assertEqual(client.configuration.access_token, token)
         self.assertIsInstance(client, ApiClient)
 
-    @unittest.skipIf(CredentialsSource.fetch_credentials().__contains__("access_token"), "do not run on PR's")
+    @unittest.skipIf(CredentialsSource.fetch_pat() is not None, "Skip if token present")
     def test_use_okta_response_handler(self):
         api_configuration = ApiConfiguration(**{
             key: value for key, value in source_config_details.items() if "proxy" not in key
