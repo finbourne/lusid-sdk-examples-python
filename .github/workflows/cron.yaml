@@ -19,15 +19,15 @@ jobs:
       - name: Run tests on MASTER branch
         if: ${{ github.ref == 'refs/heads/master'}}
         env:
-          FBN_TOKEN_URL: ${{ secrets.MASTER_FBN_TOKEN_URL }}
-          FBN_USERNAME: ${{ secrets.MASTER_FBN_USERNAME }}
-          FBN_PASSWORD: ${{ secrets.MASTER_FBN_PASSWORD }}
-          FBN_CLIENT_ID: ${{ secrets.MASTER_FBN_CLIENT_ID }}
-          FBN_CLIENT_SECRET: ${{ secrets.MASTER_FBN_CLIENT_SECRET }}
-          FBN_LUSID_API_URL: ${{ secrets.MASTER_FBN_LUSID_API_URL }}
-          FBN_APP_NAME: ${{ secrets.MASTER_FBN_CLIENT_ID }}
-          FBN_ACCESS_TOKEN: ${{ secrets.MASTER_FBN_ACCESS_TOKEN }}
-          FBN_LUSID_ACCESS_TOKEN: ${{ secrets.MASTER_FBN_ACCESS_TOKEN }}
+          FBN_TOKEN_URL: ${{ secrets.FBN_TOKEN_URL }}
+          FBN_USERNAME: ${{ secrets.FBN_USERNAME }}
+          FBN_PASSWORD: ${{ secrets.FBN_PASSWORD }}
+          FBN_CLIENT_ID: ${{ secrets.FBN_CLIENT_ID }}
+          FBN_CLIENT_SECRET: ${{ secrets.FBN_CLIENT_SECRET }}
+          FBN_LUSID_API_URL: ${{ secrets.FBN_LUSID_API_URL }}
+          FBN_APP_NAME: ${{ secrets.FBN_CLIENT_ID }}
+          FBN_ACCESS_TOKEN: ${{ secrets.FBN_ACCESS_TOKEN }}
+          FBN_LUSID_ACCESS_TOKEN: ${{ secrets.FBN_ACCESS_TOKEN }}
         run: |
           echo "env variables for MASTER have been set"
           echo "Changing directory into src directory"
