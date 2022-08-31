@@ -68,7 +68,7 @@ jobs:
         run: |
           echo "env variables have been set"
           echo "Changing directory into sdk directory"
-          cd sdk          
+          cd src
           echo "Running the tests..."
           docker-compose up --abort-on-container-exit
           echo "Tests COMPLETED"
