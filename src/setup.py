@@ -37,7 +37,7 @@ REQUIRES = [
     "requests >= 2.27.1",
     "six >= 1.10",
     "urllib3 >= 1.26.9",
-    "lusid-sdk-preview >= 0.11.*"
+    "lusid-sdk-preview >= 0.11.*, <= 1.0"
 ]
 
 version = {}
