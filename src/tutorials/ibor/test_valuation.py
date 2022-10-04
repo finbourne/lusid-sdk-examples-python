@@ -7,7 +7,6 @@ import lusid
 import lusid.models as models
 from lusidfeature import lusid_feature
 
-from lusid import ApiException
 from utilities import InstrumentLoader, IdGenerator
 from utilities import TestDataUtilities
 from utilities.id_generator_utilities import delete_entities
@@ -98,7 +97,7 @@ class Valuation(unittest.TestCase):
 
         self.quotes_api.upsert_quotes(TestDataUtilities.tutorials_scope,
                                       request_body={"quote" + str(request_number): requests[request_number]
-                                              for request_number in range(len(requests))})
+                                                    for request_number in range(len(requests))})
 
         recipe_scope = 'cs-tutorials'
         recipe_code = 'quotes_recipe'
@@ -126,12 +125,12 @@ class Valuation(unittest.TestCase):
             recipe_id=models.ResourceId(scope=recipe_scope,code=recipe_code),
             metrics=[
                 models.AggregateSpec("Instrument/default/Name", "Value"),
-                models.AggregateSpec("Holding/default/PV", "Proportion"),
-                models.AggregateSpec("Holding/default/PV", "Sum")
+                models.AggregateSpec("Valuation/PV", "Proportion"),
+                models.AggregateSpec("Valuation/PV", "Sum")
             ],
             group_by=["Instrument/default/Name"],
-            portfolio_entity_ids = [
-                models.PortfolioEntityId(scope = TestDataUtilities.tutorials_scope, code = portfolio_code)
+            portfolio_entity_ids=[
+                models.PortfolioEntityId(scope=TestDataUtilities.tutorials_scope, code=portfolio_code)
             ],
             valuation_schedule=models.ValuationSchedule(effective_at=effective_date)
         )
@@ -140,7 +139,7 @@ class Valuation(unittest.TestCase):
         aggregation = self.aggregation_api.get_valuation(valuation_request=valuation_request)
 
         # Asserts
-        self.assertEqual(len(aggregation.data),3)
-        self.assertEqual(aggregation.data[0]["Sum(Holding/default/PV)"], 10000)
-        self.assertEqual(aggregation.data[1]["Sum(Holding/default/PV)"], 20000)
-        self.assertEqual(aggregation.data[2]["Sum(Holding/default/PV)"], 30000)
+        self.assertEqual(len(aggregation.data), 3)
+        self.assertEqual(aggregation.data[0]["Sum(Valuation/PV)"], 10000)
+        self.assertEqual(aggregation.data[1]["Sum(Valuation/PV)"], 20000)
+        self.assertEqual(aggregation.data[2]["Sum(Valuation/PV)"], 30000)
