@@ -51,7 +51,7 @@ class Valuation(unittest.TestCase):
         """
         Sets up instrument, quotes and portfolio data from TestDataUtilities
         :param datetime effective_date: The portfolio creation date
-        :param str portfolio_code: The code of the the test portfolio
+        :param str portfolio_code: The code of the test portfolio
         :return: None
         """
 
@@ -125,7 +125,7 @@ class Valuation(unittest.TestCase):
         """
         Creates a configuration recipe that can be used inline or upserted
         :param str recipe_scope: The scope for the configuration recipe
-        :param str recipe_code: The code of the the configuration recipe
+        :param str recipe_code: The code of the configuration recipe
         :return: ConfigurationRecipe
         """
 
@@ -163,7 +163,7 @@ class Valuation(unittest.TestCase):
             ],
         ]
     )
-    def test_aggregation(self, _, in_line_recipe, recipe_scope, recipe_code) -> None:
+    def test_aggregation(self, _, recipe_scope, recipe_code) -> None:
         """
         General valuation/aggregation test
         """
@@ -173,15 +173,15 @@ class Valuation(unittest.TestCase):
         self.upsert_recipe_request(recipe)
 
         # Set valuation result key
-        valuation_key = "Sum(Holding/default/PV)"
+        valuation_key = "Sum(Valuation/PV)"
 
         # create valuation request
         valuation_request = models.ValuationRequest(
             recipe_id=models.ResourceId(scope=recipe_scope, code=recipe_code),
             metrics=[
                 models.AggregateSpec("Instrument/default/Name", "Value"),
-                models.AggregateSpec("Holding/default/PV", "Proportion"),
-                models.AggregateSpec("Holding/default/PV", "Sum"),
+                models.AggregateSpec("Valuation/PV", "Proportion"),
+                models.AggregateSpec("Valuation/PV", "Sum"),
             ],
             group_by=["Instrument/default/Name"],
             valuation_schedule=models.ValuationSchedule(effective_at=self.effective_date),
