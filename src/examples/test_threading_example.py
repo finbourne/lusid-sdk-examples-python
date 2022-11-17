@@ -2,13 +2,14 @@ import lusid
 import time
 from utilities import TestDataUtilities
 import unittest
+import logging
 
-
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 class AsyncExamples(unittest.TestCase):
     def setUp(self):
         # Create a configured API client
         api_client = TestDataUtilities.api_client()
-
         # Setup required LUSID APIs
         self.transaction_portfolios_api = lusid.TransactionPortfoliosApi(api_client)
         self.application_metadata_api = lusid.ApplicationMetadataApi(api_client)
@@ -74,8 +75,8 @@ class AsyncExamples(unittest.TestCase):
             # raise TimeoutError
             response = async_result.get(timeout=2)
             return response
-        except TimeoutError as e:
-            print(e)
+        except TimeoutError:
+            logger.exception('Timed out')
 
     def async_wait_example(self, async_request_fn):
         """send a request asynchronously and print "done" when the response is received
@@ -84,7 +85,7 @@ class AsyncExamples(unittest.TestCase):
             api_client (Union[lusid.api.ApplicationMetadataApi, lusid.InstrumentsApi]): api object used to send request to ApplicationMetadata or Instruments endpoints
             async_request_fn (Callable[AsyncResult]): Function that requests some data from one of our APIs asynchronously
         """
-        print("Waiting for asynchronous request to complete")
+        logger.info("Waiting for asynchronous request to complete")
 
         try:
 
@@ -92,9 +93,9 @@ class AsyncExamples(unittest.TestCase):
             # wait up for response
             # throws timeout after 20 secs
             async_result.wait(timeout=20)
-            print("result ready")
-        except TimeoutError as e:
-            print(e)
+            logger.info("result ready")
+        except TimeoutError:
+            logger.exception('Timed out')
 
     def async_ready_example(self, async_request_fn):
         """similar to the wait example - send a request asynchronously, polling the ready status of the AsyncResult object
@@ -105,13 +106,13 @@ class AsyncExamples(unittest.TestCase):
         Returns:
             bool: whether the asynchronous functino completed successfully or not
         """
-        print("Polling async request ready status")
+        logger.info("Polling async request ready status")
         async_result = async_request_fn()
         # poll whether function has completed on other thread.
         while not async_result.ready():
-            print("result not ready yet")
+            logger.info("result not ready yet")
             time.sleep(1)
-        print("result ready")
+        logger.info("result ready")
         # check if function completed without exception on other thread.
         return async_result.successful()
 
@@ -125,13 +126,13 @@ class AsyncExamples(unittest.TestCase):
         Returns:
             Iterator[str]: Iterator of responses
         """
-        print("sending 10 asynchronous requests")
+        logger.info("sending 10 asynchronous requests")
         # send 10 requests asyncronously
         results = [async_request_fn() for i in range(10)]
         # check whether all results are ready until all results are ready
         while not all((result.ready() for result in results)):
             pass
-        print("all responses in")
+        logger.info("all responses in")
         # now iterate through response for result in results:
         return (result.get() for result in results)
 
