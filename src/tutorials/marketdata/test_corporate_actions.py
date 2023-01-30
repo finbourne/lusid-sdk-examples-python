@@ -79,7 +79,7 @@ class CorporateActions(unittest.TestCase):
                     code=portfolio_code,
                     display_name=portfolio_code,
                     base_currency="GBP",
-                    created=effective_at_date,
+                    created=effective_at_date.isoformat(),
                 ),
             )
         except lusid.ApiException as e:
@@ -97,8 +97,8 @@ class CorporateActions(unittest.TestCase):
                     instrument_identifiers={
                         TestDataUtilities.lusid_figi_identifier: instrument_original_figi
                     },
-                    transaction_date=effective_at_date,
-                    settlement_date=effective_at_date,
+                    transaction_date=effective_at_date.isoformat(),
+                    settlement_date=effective_at_date.isoformat(),
                     transaction_price=models.TransactionPrice(0.0),
                     units=60000,
                     total_consideration=models.CurrencyAndAmount(0, "GBP"),
@@ -132,7 +132,7 @@ class CorporateActions(unittest.TestCase):
         self.transaction_portfolios_api.upsert_portfolio_details(
             scope=TestDataUtilities.tutorials_scope,
             code=portfolio_code,
-            effective_at=effective_at_date,
+            effective_at=effective_at_date.isoformat(),
             create_portfolio_details=models.CreatePortfolioDetails(
                 corporate_action_source_id=models.ResourceId(
                     scope=TestDataUtilities.tutorials_scope,
@@ -188,12 +188,13 @@ class CorporateActions(unittest.TestCase):
         )
 
         # Create a request to upsert a corporate action with the transition above.
+        ead_plus_1day = effective_at_date + timedelta(days=1)
         corporate_action_request = models.UpsertCorporateActionRequest(
             corporate_action_code=corporate_action_code,
-            announcement_date=effective_at_date + timedelta(days=1),
-            ex_date=effective_at_date + timedelta(days=1),
-            record_date=effective_at_date + timedelta(days=1),
-            payment_date=effective_at_date + timedelta(days=1),
+            announcement_date=ead_plus_1day.isoformat(),
+            ex_date=ead_plus_1day.isoformat(),
+            record_date=ead_plus_1day.isoformat(),
+            payment_date=ead_plus_1day.isoformat(),
             transitions=[transition],
         )
 
