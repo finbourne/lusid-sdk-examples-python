@@ -42,19 +42,19 @@ class Bitemporal(unittest.TestCase):
                                                                units=100,
                                                                price=101,
                                                                currency="GBP",
-                                                               trade_date=datetime(2018, 1, 1, tzinfo=pytz.utc),
+                                                               trade_date=datetime(2018, 1, 1, tzinfo=pytz.utc).isoformat(),
                                                                transaction_type="StockIn"),
             self.test_data_utilities.build_transaction_request(instrument_id=self.instrument_ids[1],
                                                                units=100,
                                                                price=102,
                                                                currency="GBP",
-                                                               trade_date=datetime(2018, 1, 2, tzinfo=pytz.utc),
+                                                               trade_date=datetime(2018, 1, 2, tzinfo=pytz.utc).isoformat(),
                                                                transaction_type="StockIn"),
             self.test_data_utilities.build_transaction_request(instrument_id=self.instrument_ids[2],
                                                                units=100,
                                                                price=103,
                                                                currency="GBP",
-                                                               trade_date=datetime(2018, 1, 3, tzinfo=pytz.utc),
+                                                               trade_date=datetime(2018, 1, 3, tzinfo=pytz.utc).isoformat(),
                                                                transaction_type="StockIn")
         ]
 
@@ -71,7 +71,7 @@ class Bitemporal(unittest.TestCase):
                                                                        units=100,
                                                                        price=104,
                                                                        currency="GBP",
-                                                                       trade_date=datetime(2018, 1, 8, tzinfo=pytz.utc),
+                                                                       trade_date=datetime(2018, 1, 8, tzinfo=pytz.utc).isoformat(),
                                                                        transaction_type="StockIn")
         added_result = self.transaction_portfolios_api.upsert_transactions(scope=TestDataUtilities.tutorials_scope,
                                                                            code=portfolio_code,
@@ -84,8 +84,7 @@ class Bitemporal(unittest.TestCase):
                                                                              units=100,
                                                                              price=105,
                                                                              currency="GBP",
-                                                                             trade_date=datetime(2018, 1, 5,
-                                                                                                 tzinfo=pytz.utc),
+                                                                             trade_date=datetime(2018, 1, 5, tzinfo=pytz.utc).isoformat(),
                                                                              transaction_type="StockIn")
 
         added_result = self.transaction_portfolios_api.upsert_transactions(scope=TestDataUtilities.tutorials_scope,

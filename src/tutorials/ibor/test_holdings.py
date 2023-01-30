@@ -39,9 +39,9 @@ class Holdings(unittest.TestCase):
         currency = "GBP"
 
         # The dates for which transactions are added to the portfolio. All dates/times must be supplied in UTC
-        day_t1 = datetime(2018, 1, 1, tzinfo=pytz.utc)
-        day_tplus5 = datetime(2018, 1, 5, tzinfo=pytz.utc)
-        day_tplus10 = datetime(2018, 1, 10, tzinfo=pytz.utc)
+        day_t1 = datetime(2018, 1, 1, tzinfo=pytz.utc).isoformat()
+        day_tplus5 = datetime(2018, 1, 5, tzinfo=pytz.utc).isoformat()
+        day_tplus10 = datetime(2018, 1, 10, tzinfo=pytz.utc).isoformat()
 
         # Create a portfolio
         portfolio_id = self.test_data_utilities.create_transaction_portfolio(TestDataUtilities.tutorials_scope)
@@ -110,8 +110,8 @@ class Holdings(unittest.TestCase):
 
         currency = "GBP"
 
-        day1 = datetime(2018, 1, 1, tzinfo=pytz.utc)
-        day2 = datetime(2018, 1, 5, tzinfo=pytz.utc)
+        day1 = datetime(2018, 1, 1, tzinfo=pytz.utc).isoformat()
+        day2 = datetime(2018, 1, 5, tzinfo=pytz.utc).isoformat()
 
         portfolio_code = self.test_data_utilities.create_transaction_portfolio(TestDataUtilities.tutorials_scope)
         self.id_generator.add_scope_and_code("portfolio", TestDataUtilities.tutorials_scope, portfolio_code)

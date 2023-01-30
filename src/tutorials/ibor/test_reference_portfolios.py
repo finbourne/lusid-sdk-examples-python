@@ -59,7 +59,7 @@ class ReferencePortfolio(unittest.TestCase):
     def test_upsert_reference_portfolio_constituents(self):
 
         constituent_weights = [10, 20, 30, 15, 25]
-        effective_date = datetime(year=2021, month=3, day=29, tzinfo=pytz.UTC)
+        effective_date = datetime(year=2021, month=3, day=29, tzinfo=pytz.UTC).isoformat()
 
         _, _, portfolio_code = self.id_generator.generate_scope_and_code("portfolio")
         f40_reference_portfolio_name = "F40p_Reference Portfolio Name"

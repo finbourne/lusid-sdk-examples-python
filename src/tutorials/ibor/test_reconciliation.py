@@ -49,31 +49,31 @@ class Reconciliation(unittest.TestCase):
                                                                units=1000.0,
                                                                price=100.0,
                                                                currency="GBP",
-                                                               trade_date=yesterday + timedelta(hours=8),
+                                                               trade_date=(yesterday + timedelta(hours=8)).isoformat(),
                                                                transaction_type="StockIn"),
             self.test_data_utilities.build_transaction_request(instrument_id=self.instrument_ids[0],
                                                                units=2300.0,
                                                                price=101.0,
                                                                currency="GBP",
-                                                               trade_date=yesterday + timedelta(hours=12),
+                                                               trade_date=(yesterday + timedelta(hours=12)).isoformat(),
                                                                transaction_type="StockIn"),
             self.test_data_utilities.build_transaction_request(instrument_id=self.instrument_ids[1],
                                                                units=-1000.0,
                                                                price=102.0,
                                                                currency="GBP",
-                                                               trade_date=yesterday + timedelta(hours=9),
+                                                               trade_date=(yesterday + timedelta(hours=9)).isoformat(),
                                                                transaction_type="StockIn"),
             self.test_data_utilities.build_transaction_request(instrument_id=self.instrument_ids[2],
                                                                units=1200.0,
                                                                price=103.0,
                                                                currency="GBP",
-                                                               trade_date=yesterday + timedelta(hours=16),
+                                                               trade_date=(yesterday + timedelta(hours=16)).isoformat(),
                                                                transaction_type="StockIn"),
             self.test_data_utilities.build_transaction_request(instrument_id=self.instrument_ids[3],
                                                                units=2000.0,
                                                                price=103.0,
                                                                currency="GBP",
-                                                               trade_date=yesterday + timedelta(hours=9),
+                                                               trade_date=(yesterday + timedelta(hours=9)).isoformat(),
                                                                transaction_type="StockIn"),
         ]
 
@@ -90,7 +90,7 @@ class Reconciliation(unittest.TestCase):
                                                                units=-3000.0,
                                                                price=101.78,
                                                                currency="GBP",
-                                                               trade_date=today + timedelta(hours=8),
+                                                               trade_date=(today + timedelta(hours=8)).isoformat(),
                                                                transaction_type="StockIn"),
 
             # net long 1800
@@ -98,7 +98,7 @@ class Reconciliation(unittest.TestCase):
                                                                units=1500.0,
                                                                price=101.78,
                                                                currency="GBP",
-                                                               trade_date=today + timedelta(hours=12),
+                                                               trade_date=(today + timedelta(hours=12)).isoformat(),
                                                                transaction_type="StockIn"),
 
             # flat
@@ -106,7 +106,7 @@ class Reconciliation(unittest.TestCase):
                                                                units=1000.0,
                                                                price=102.0,
                                                                currency="GBP",
-                                                               trade_date=today + timedelta(hours=12),
+                                                               trade_date=(today + timedelta(hours=12)).isoformat(),
                                                                transaction_type="StockIn"),
 
             # net long 2400
@@ -114,7 +114,7 @@ class Reconciliation(unittest.TestCase):
                                                                units=1200.0,
                                                                price=103.0,
                                                                currency="GBP",
-                                                               trade_date=today + timedelta(hours=16),
+                                                               trade_date=(today + timedelta(hours=16)).isoformat(),
                                                                transaction_type="StockIn"),
 
             # net long 3000
@@ -122,7 +122,7 @@ class Reconciliation(unittest.TestCase):
                                                                units=1000.0,
                                                                price=103.0,
                                                                currency="GBP",
-                                                               trade_date=today + timedelta(hours=9),
+                                                               trade_date=(today + timedelta(hours=9)).isoformat(),
                                                                transaction_type="StockIn"),
 
             # net long 5000
@@ -130,7 +130,7 @@ class Reconciliation(unittest.TestCase):
                                                                units=2000.0,
                                                                price=103.0,
                                                                currency="GBP",
-                                                               trade_date=today + timedelta(hours=20),
+                                                               trade_date=(today + timedelta(hours=20)).isoformat(),
                                                                transaction_type="StockIn"),
         ]
 
@@ -148,12 +148,12 @@ class Reconciliation(unittest.TestCase):
         reconciliation_request = models.PortfoliosReconciliationRequest(
             left=models.PortfolioReconciliationRequest(
                 portfolio_id=models.ResourceId(scope=TestDataUtilities.tutorials_scope, code=portfolio_code),
-                effective_at=yesterday + timedelta(hours=20),
+                effective_at=(yesterday + timedelta(hours=20)).isoformat(),
                 as_at=last_as_at
             ),
             right=models.PortfolioReconciliationRequest(
                 portfolio_id=models.ResourceId(scope=TestDataUtilities.tutorials_scope, code=portfolio_code),
-                effective_at=today + timedelta(hours=16),
+                effective_at=(today + timedelta(hours=16)).isoformat(),
                 as_at=last_as_at
             ),
             instrument_property_keys=[TestDataUtilities.lusid_luid_identifier]
