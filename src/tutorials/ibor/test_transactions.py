@@ -39,7 +39,7 @@ class Transactions(unittest.TestCase):
         portfolio_code = self.test_data_utilities.create_transaction_portfolio(TestDataUtilities.tutorials_scope)
         self.id_generator.add_scope_and_code("portfolio", TestDataUtilities.tutorials_scope, portfolio_code)
 
-        trade_date = datetime(2018, 1, 1, tzinfo=pytz.utc)
+        trade_date = datetime(2018, 1, 1, tzinfo=pytz.utc).isoformat()
 
         #   details of the transaction to be added
         transaction = models.TransactionRequest(
@@ -76,7 +76,7 @@ class Transactions(unittest.TestCase):
         portfolio_code = self.test_data_utilities.create_transaction_portfolio(TestDataUtilities.tutorials_scope)
         self.id_generator.add_scope_and_code("portfolio", TestDataUtilities.tutorials_scope, portfolio_code)
 
-        trade_date = datetime(2018, 1, 1, tzinfo=pytz.utc)
+        trade_date = datetime(2018, 1, 1, tzinfo=pytz.utc).isoformat()
 
         #   details of the transaction to be added
         transaction = models.TransactionRequest(
@@ -114,7 +114,7 @@ class Transactions(unittest.TestCase):
     @lusid_feature("F13-6")
     def test_cancel_transactions(self):
         # set effective date
-        effective_date = datetime(2018, 1, 1, tzinfo=pytz.utc)
+        effective_date = datetime(2018, 1, 1, tzinfo=pytz.utc).isoformat()
 
         # create portfolio code
         portfolio_code = self.test_data_utilities.create_transaction_portfolio(TestDataUtilities.tutorials_scope)

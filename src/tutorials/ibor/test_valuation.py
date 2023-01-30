@@ -39,7 +39,7 @@ class Valuation(unittest.TestCase):
     @lusid_feature("F10-5")
     def test_portfolio_aggregation(self):
 
-        effective_date = datetime(2019, 4, 15, tzinfo=pytz.utc)
+        effective_date = datetime(2019, 4, 15, tzinfo=pytz.utc).isoformat()
 
         portfolio_code = self.test_data_utilities.create_transaction_portfolio(TestDataUtilities.tutorials_scope)
         self.id_generator.add_scope_and_code("portfolio", TestDataUtilities.tutorials_scope, portfolio_code)

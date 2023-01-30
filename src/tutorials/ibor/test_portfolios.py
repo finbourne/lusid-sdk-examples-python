@@ -128,7 +128,7 @@ class Portfolios(unittest.TestCase):
     def test_add_transaction_to_portfolio(self):
         # effective date of the portfolio, this is the date the portfolio was created and became live.  All dates/times
         # must be supplied in UTC
-        effective_date = datetime(2018, 1, 1, tzinfo=pytz.utc)
+        effective_date = datetime(2018, 1, 1, tzinfo=pytz.utc).isoformat()
 
         # create the portfolio
         portfolio_id = self.test_data_utilities.create_transaction_portfolio(TestDataUtilities.tutorials_scope)
@@ -197,7 +197,7 @@ class Portfolios(unittest.TestCase):
             create_property_definition_request=property_definition)
 
         # effective date for which portfolio is created
-        effective_date = datetime(2018, 1, 1, tzinfo=pytz.utc)
+        effective_date = datetime(2018, 1, 1, tzinfo=pytz.utc).isoformat()
 
         # create the portfolio
         portfolio_id = self.test_data_utilities.create_transaction_portfolio(TestDataUtilities.tutorials_scope)
