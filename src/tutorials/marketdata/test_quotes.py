@@ -31,7 +31,7 @@ class Quotes(unittest.TestCase):
                     quote_type="Price",
                     field="mid"
                 ),
-                effective_at = datetime(2019, 4, 15, tzinfo=pytz.utc)
+                effective_at = datetime(2019, 4, 15, tzinfo=pytz.utc).isoformat()
             ),
             metric_value=models.MetricValue(
                 value=199.23,
