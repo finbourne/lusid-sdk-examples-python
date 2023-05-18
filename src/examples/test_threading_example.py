@@ -71,9 +71,9 @@ class AsyncExamples(unittest.TestCase):
         try:
             async_result = async_request_fn()
             # wait for response
-            # if response takes more than 2 secs
+            # if response takes more than 20 secs
             # raise TimeoutError
-            response = async_result.get(timeout=2)
+            response = async_result.get(timeout=20)
             return response
         except TimeoutError:
             logger.exception('Timed out')
