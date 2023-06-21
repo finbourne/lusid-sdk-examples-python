@@ -2,7 +2,6 @@ import uuid
 
 
 class IdGenerator:
-
     default_scope = "sdk_example"
 
     def __init__(self, scope=default_scope):
@@ -17,7 +16,9 @@ class IdGenerator:
         self.scope = scope if scope is not None else self.default_scope
         self._scope_and_codes = set()
 
-    def generate_scope_and_code(self, entity, scope=None, code_prefix=None, annotations=[]):
+    def generate_scope_and_code(
+        self, entity, scope=None, code_prefix=None, annotations=[]
+    ):
         """
         Generate a scope and code
 
