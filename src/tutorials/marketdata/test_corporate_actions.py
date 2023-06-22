@@ -35,11 +35,11 @@ class CorporateActions(unittest.TestCase):
     @lusid_feature("F12-4")
     def test_name_change_corporate_action(self):
         """The code below shows how to process a corporate action name change in LUSID:
-             Create two instruments, the original and the updated instrument.
-             Create a portfolio and add a transaction to it for the original instrument.
-             Create a corporate action source, and a corporate action comprising a transition.
-             Upsert the corporate action, then check that the holding instrument was changed.
-         """
+        Create two instruments, the original and the updated instrument.
+        Create a portfolio and add a transaction to it for the original instrument.
+        Create a corporate action source, and a corporate action comprising a transition.
+        Upsert the corporate action, then check that the holding instrument was changed.
+        """
         # Define details for the corporate action.
         instrument_name = "instrument-name"
         instrument_original_figi = "FR0123456789"
@@ -68,7 +68,7 @@ class CorporateActions(unittest.TestCase):
         _, scope, portfolio_code = self.id_generator.generate_scope_and_code(
             "portfolio",
             scope=TestDataUtilities.tutorials_scope,
-            code_prefix="corporate-actions-portfolio-"
+            code_prefix="corporate-actions-portfolio-",
         )
 
         try:
@@ -110,7 +110,9 @@ class CorporateActions(unittest.TestCase):
         corporate_action_source_code = "name-change-corporate-actions-source"
         corporate_action_code = "name-change-corporate-action"
 
-        self.id_generator.add_scope_and_code("ca_source", TestDataUtilities.tutorials_scope, corporate_action_source_code)
+        self.id_generator.add_scope_and_code(
+            "ca_source", TestDataUtilities.tutorials_scope, corporate_action_source_code
+        )
 
         # Create a corporate actions source.
         corporate_action_source = models.CreateCorporateActionSourceRequest(
@@ -184,7 +186,7 @@ class CorporateActions(unittest.TestCase):
             "corp_action",
             TestDataUtilities.tutorials_scope,
             corporate_action_source_code,
-            [corporate_action_code]
+            [corporate_action_code],
         )
 
         # Create a request to upsert a corporate action with the transition above.
@@ -222,14 +224,19 @@ class CorporateActions(unittest.TestCase):
 
     @lusid_feature("F12-6")
     def test_list_corporate_action_sources(self):
-
-        _, scope, code, = self.id_generator.generate_scope_and_code(
+        (
+            _,
+            scope,
+            code,
+        ) = self.id_generator.generate_scope_and_code(
             "ca_source",
             TestDataUtilities.tutorials_scope,
-            code_prefix="test-corp-action"
+            code_prefix="test-corp-action",
         )
 
-        request = models.CreateCorporateActionSourceRequest(scope=scope, code=code, display_name=code)
+        request = models.CreateCorporateActionSourceRequest(
+            scope=scope, code=code, display_name=code
+        )
 
         self.corporate_actions_sources_api.create_corporate_action_source(request)
         sources = self.corporate_actions_sources_api.list_corporate_action_sources()
