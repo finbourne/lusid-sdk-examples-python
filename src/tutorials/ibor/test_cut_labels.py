@@ -23,7 +23,7 @@ class TestCutLabels:
         self,
         id_generator,
         cut_label_definitions_api,
-        test_data_utilities,
+        data_utilities,
         instruments,
         transaction_portfolios_api,
     ):
@@ -130,7 +130,7 @@ class TestCutLabels:
         ]
         await asyncio.gather(*tasks)
         # Create portfolio
-        portfolio_code = await test_data_utilities.create_transaction_portfolio(
+        portfolio_code = await data_utilities.create_transaction_portfolio(
             DataUtilities.tutorials_scope
         )
         id_generator.add_scope_and_code(
@@ -153,11 +153,11 @@ class TestCutLabels:
         )
         initial_holdings = [
             # cash balance
-            test_data_utilities.build_cash_funds_in_adjust_holdings_request(
+            data_utilities.build_cash_funds_in_adjust_holdings_request(
                 currency=currency, units=100000.0
             ),
             # instrument 1
-            test_data_utilities.build_adjust_holdings_request(
+            data_utilities.build_adjust_holdings_request(
                 instrument_id=instrument1,
                 units=100.0,
                 price=101.0,
@@ -165,7 +165,7 @@ class TestCutLabels:
                 trade_date=None,
             ),
             # instrument 2
-            test_data_utilities.build_adjust_holdings_request(
+            data_utilities.build_adjust_holdings_request(
                 instrument_id=instrument2,
                 units=100.0,
                 price=102.0,
@@ -173,7 +173,7 @@ class TestCutLabels:
                 trade_date=None,
             ),
             # instrument 3
-            test_data_utilities.build_adjust_holdings_request(
+            data_utilities.build_adjust_holdings_request(
                 instrument_id=instrument3,
                 units=100.0,
                 price=99.0,
@@ -200,24 +200,24 @@ class TestCutLabels:
         # check that holdings are as expected before transactions occur for each instrument
         holdings.values.sort(key=lambda i: i.instrument_uid)
         assert len(holdings.values) == 4
-        test_data_utilities.test.assert_cash_holdings(
+        data_utilities.TestDataUtilities.assert_cash_holdings(
             holdings=holdings, index=0, instrument_id=currency_luid, units=100000.0
         )
-        test_data_utilities.test.assert_holdings(
+        data_utilities.TestDataUtilities.assert_holdings(
             holdings=holdings,
             index=1,
             instrument_id=instrument1,
             units=100.0,
             cost_amount=10100.0,
         )
-        test_data_utilities.test.assert_holdings(
+        data_utilities.TestDataUtilities.assert_holdings(
             holdings=holdings,
             index=2,
             instrument_id=instrument2,
             units=100.0,
             cost_amount=10200.0,
         )
-        test_data_utilities.test.assert_holdings(
+        data_utilities.TestDataUtilities.assert_holdings(
             holdings=holdings,
             index=3,
             instrument_id=instrument3,
@@ -233,7 +233,7 @@ class TestCutLabels:
         transaction_3_cut_label = cut_label_formatter(date.today(), code["NYOpen"])
         transaction_4_cut_label = cut_label_formatter(date.today(), code["NYClose"])
         transactions = [
-            test_data_utilities.build_transaction_request(
+            data_utilities.build_transaction_request(
                 instrument_id=instrument1,
                 units=100.0,
                 price=100.0,
@@ -241,7 +241,7 @@ class TestCutLabels:
                 trade_date=transaction_1_cut_label,
                 transaction_type="Buy",
             ),
-            test_data_utilities.build_transaction_request(
+            data_utilities.build_transaction_request(
                 instrument_id=instrument2,
                 units=100.0,
                 price=100.0,
@@ -249,7 +249,7 @@ class TestCutLabels:
                 trade_date=transaction_2_cut_label,
                 transaction_type="Buy",
             ),
-            test_data_utilities.build_transaction_request(
+            data_utilities.build_transaction_request(
                 instrument_id=instrument3,
                 units=100.0,
                 price=100.0,
@@ -257,7 +257,7 @@ class TestCutLabels:
                 trade_date=transaction_3_cut_label,
                 transaction_type="Buy",
             ),
-            test_data_utilities.build_transaction_request(
+            data_utilities.build_transaction_request(
                 instrument_id=instrument1,
                 units=100.0,
                 price=100.0,
@@ -286,24 +286,24 @@ class TestCutLabels:
         # check that holdings are as expected after transactions for each instrument
         holdings.values.sort(key=lambda i: i.instrument_uid)
         assert len(holdings.values) == 4
-        test_data_utilities.test.assert_cash_holdings(
+        data_utilities.TestDataUtilities.assert_cash_holdings(
             holdings=holdings, index=0, instrument_id=currency_luid, units=70000.0
         )
-        test_data_utilities.test.assert_holdings(
+        data_utilities.TestDataUtilities.assert_holdings(
             holdings=holdings,
             index=1,
             instrument_id=instrument1,
             units=200.0,
             cost_amount=20100.0,
         )
-        test_data_utilities.test.assert_holdings(
+        data_utilities.TestDataUtilities.assert_holdings(
             holdings=holdings,
             index=2,
             instrument_id=instrument2,
             units=200.0,
             cost_amount=20200.0,
         )
-        test_data_utilities.test.assert_holdings(
+        data_utilities.TestDataUtilities.assert_holdings(
             holdings=holdings,
             index=3,
             instrument_id=instrument3,

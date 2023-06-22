@@ -107,11 +107,13 @@ class DataUtilities:
         )
 
     class TestDataUtilities:
-        def assert_holdings(self, holdings, index, instrument_id, units, cost_amount):
+        @classmethod
+        def assert_holdings(cls, holdings, index, instrument_id, units, cost_amount):
             assert holdings.values[index].instrument_uid == instrument_id
             assert holdings.values[index].units, units
             assert holdings.values[index].cost.amount == cost_amount
 
-        def assert_cash_holdings(self, holdings, index, instrument_id, units):
+        @classmethod
+        def assert_cash_holdings(cls, holdings, index, instrument_id, units):
             assert holdings.values[index].instrument_uid == instrument_id
             assert holdings.values[index].units == units
