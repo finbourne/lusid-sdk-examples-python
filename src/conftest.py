@@ -103,3 +103,8 @@ def recipes_api(api_client_factory):
 @pytest.fixture(scope="class")
 def quotes_api(api_client_factory):
     return api_client_factory.build(lusid.QuotesApi)
+
+
+@pytest.fixture(scope="class")
+def corporate_actions_sources_api(api_client_factory):
+    return api_client_factory.build(lusid.CorporateActionSourcesApi)
