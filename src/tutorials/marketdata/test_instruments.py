@@ -1,34 +1,21 @@
-import unittest
-
-import lusid
 import lusid.models as models
 from lusidfeature import lusid_feature
 from lusid.exceptions import ApiException
-from utilities import TestDataUtilities
+from utilities import DataUtilities
+import pytest
 
 
-class Instruments(unittest.TestCase):
-    property_definitions_api = None
-
-    @classmethod
-    def setUpClass(cls):
-        # create a configured API client
-        api_client = TestDataUtilities.api_client()
-
-        cls.instruments_api = lusid.InstrumentsApi(api_client)
-        cls.property_definitions_api = lusid.PropertyDefinitionsApi(api_client)
-
-    @classmethod
-    async def ensure_property_definition(cls, code):
+class TestInstruments:
+    async def ensure_property_definition(self, code, property_definitions_api):
         try:
-            await cls.property_definitions_api.get_property_definition(
-                domain="Instrument", scope=TestDataUtilities.tutorials_scope, code=code
+            await property_definitions_api.get_property_definition(
+                domain="Instrument", scope=DataUtilities.tutorials_scope, code=code
             )
         except ApiException:
             # property definition doesn't exist (returns 404), so create one
             property_definition = models.CreatePropertyDefinitionRequest(
                 domain="Instrument",
-                scope=TestDataUtilities.tutorials_scope,
+                scope=DataUtilities.tutorials_scope,
                 life_time="Perpetual",
                 code=code,
                 value_required=False,
@@ -36,13 +23,14 @@ class Instruments(unittest.TestCase):
             )
 
             # create the property
-            cls.property_definitions_api.create_property_definition(
+            await property_definitions_api.create_property_definition(
                 definition=property_definition
             )
 
+    @pytest.mark.asyncio
     @lusid_feature("F5-4")
-    async def test_seed_instrument_master(self):
-        response = await self.instruments_api.upsert_instruments(
+    async def test_seed_instrument_master(self, instruments_api):
+        response = await instruments_api.upsert_instruments(
             request_body={
                 "BBG00KTDTF73": models.InstrumentDefinition(
                     name="AT&T INC",
@@ -92,14 +80,15 @@ class Instruments(unittest.TestCase):
             }
         )
 
-        self.assertEqual(len(response.values), 5, response.failed)
+        assert len(response.values) == 5, response.failed
 
+    @pytest.mark.asyncio
     @lusid_feature("F21-1")
-    async def test_lookup_instrument_by_unique_id(self):
+    async def test_lookup_instrument_by_unique_id(self, instruments_api):
         figi = "BBG00KTDTF73"
 
         # set up the instrument
-        response = await self.instruments_api.upsert_instruments(
+        response = await instruments_api.upsert_instruments(
             request_body={
                 figi: models.InstrumentDefinition(
                     name="AT&T INC",
@@ -112,20 +101,20 @@ class Instruments(unittest.TestCase):
                 )
             }
         )
-        self.assertEqual(len(response.values), 1, response.failed)
+        assert len(response.values) == 1, response.failed
 
         # look up an instrument that already exists in the instrument master by a
         # unique id, in this case an OpenFigi, and also return a list of aliases
-        looked_up_instruments = await self.instruments_api.get_instruments(
+        looked_up_instruments = await instruments_api.get_instruments(
             identifier_type="Figi",
             request_body=[figi],
             property_keys=["Instrument/default/ClientInternal"],
         )
 
-        self.assertTrue(figi in looked_up_instruments.values, msg=f"cannot find {figi}")
+        assert figi in looked_up_instruments.values, f"cannot find {figi}"
 
         instrument = looked_up_instruments.values[figi]
-        self.assertTrue(instrument.name, "AT&T INC")
+        assert instrument.name == "AT&T INC"
 
         property = next(
             filter(
@@ -134,43 +123,47 @@ class Instruments(unittest.TestCase):
             ),
             None,
         )
-        self.assertTrue(property.value, "internal_id_1")
+        assert property.value.label_value == "internal_id_1_example"
 
+    @pytest.mark.asyncio
     @lusid_feature("F21-1")
-    async def test_list_available_identifiers(self):
-        identifiers = await self.instruments_api.get_instrument_identifier_types()
-        self.assertGreater(len(identifiers.values), 0)
+    async def test_list_available_identifiers(self, instruments_api):
+        identifiers = await instruments_api.get_instrument_identifier_types()
+        assert len(identifiers.values) > 0
 
+    @pytest.mark.asyncio
     @lusid_feature("F21-3")
-    async def test_list_all_instruments(self):
+    async def test_list_all_instruments(self, instruments_api):
         page_size = 5
 
         # list the instruments, restricting the number that are returned
-        instruments = await self.instruments_api.list_instruments(limit=page_size)
+        instruments = await instruments_api.list_instruments(limit=page_size)
 
-        self.assertLessEqual(len(instruments.values), page_size)
+        assert len(instruments.values) <= page_size
 
+    @pytest.mark.asyncio
     @lusid_feature("F21-3")
-    def test_list_instruments_by_identifier_type(self):
+    async def test_list_instruments_by_identifier_type(self, instruments_api):
         figis = ["BBG00KTDTF73", "BBG00Y271826", "BBG00L7XVNP1"]
 
         # get a set of instruments querying by FIGIs
-        instruments = self.instruments_api.get_instruments(
+        instruments = await instruments_api.get_instruments(
             identifier_type="Figi", request_body=figis
         )
 
         for figi in figis:
-            self.assertTrue(figi in instruments.values, msg=f"{figi} not returned")
+            assert figi in instruments.values, f"{figi} not returned"
 
+    @pytest.mark.asyncio
     @lusid_feature("F4-4")
-    def test_edit_instrument_property(self):
+    async def test_edit_instrument_property(self, instruments_api):
         property_value = models.PropertyValue(label_value="Insurance")
-        property_key = f"Instrument/{TestDataUtilities.tutorials_scope}/CustomSector"
+        property_key = f"Instrument/{DataUtilities.tutorials_scope}/CustomSector"
         identifier_type = "Figi"
         identifier = "BBG00KTDTF73"
 
         # update the instrument
-        self.instruments_api.upsert_instruments_properties(
+        await instruments_api.upsert_instruments_properties(
             upsert_instrument_property_request=[
                 models.UpsertInstrumentPropertyRequest(
                     identifier_type=identifier_type,
@@ -183,13 +176,13 @@ class Instruments(unittest.TestCase):
         )
 
         # get the instrument with value
-        instrument = self.instruments_api.get_instrument(
+        instrument = await instruments_api.get_instrument(
             identifier_type=identifier_type,
             identifier=identifier,
             property_keys=[property_key],
         )
 
-        self.assertGreaterEqual(len(instrument.properties), 1)
+        assert len(instrument.properties) >= 1
 
         prop = list(
             filter(
@@ -199,8 +192,6 @@ class Instruments(unittest.TestCase):
             )
         )
 
-        self.assertEqual(
-            len(prop),
-            1,
-            f"cannot find property key=${property_key} value={property_value}",
-        )
+        assert (
+            len(prop) == 1
+        ), f"cannot find property key=${property_key} value={property_value}"

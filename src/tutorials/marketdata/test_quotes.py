@@ -1,75 +1,65 @@
-import unittest
 from datetime import datetime, timedelta
 
 import pytz as pytz
 
-import lusid
 import lusid.models as models
 from lusidfeature import lusid_feature
-from utilities import TestDataUtilities
+from utilities import DataUtilities
+import pytest
+import asyncio
 
 
-class Quotes(unittest.TestCase):
-    quotes_api = None
-
-    @classmethod
-    def setUpClass(cls):
-        # create a configured API client
-        api_client = TestDataUtilities.api_client()
-
-        cls.quotes_api = lusid.QuotesApi(api_client)
-
+class TestQuotes:
+    @pytest.mark.asyncio
     @lusid_feature("F14-1")
-    def test_add_quote(self):
-
+    async def test_add_quote(self, quotes_api):
         request = models.UpsertQuoteRequest(
             quote_id=models.QuoteId(
-                models.QuoteSeriesId(
+                quote_series_id=models.QuoteSeriesId(
                     provider="DataScope",
                     instrument_id="BBG000B9XRY4",
                     instrument_id_type="Figi",
                     quote_type="Price",
-                    field="mid"
+                    field="mid",
                 ),
-                effective_at = datetime(2019, 4, 15, tzinfo=pytz.utc).isoformat()
+                effective_at=datetime(2019, 4, 15, tzinfo=pytz.utc).isoformat(),
             ),
-            metric_value=models.MetricValue(
-                value=199.23,
-                unit="USD"
-            )
+            metric_value=models.MetricValue(value=199.23, unit="USD"),
         )
 
-        self.quotes_api.upsert_quotes(TestDataUtilities.tutorials_scope, request_body={"quote1": request})
+        await quotes_api.upsert_quotes(
+            DataUtilities.tutorials_scope, request_body={"quote1": request}
+        )
 
+    @pytest.mark.asyncio
     @lusid_feature("F14-1")
-    def test_get_quote_for_instrument_for_single_day(self):
-
+    async def test_get_quote_for_instrument_for_single_day(self, quotes_api):
         quote_series_id = models.QuoteSeriesId(
             provider="DataScope",
             instrument_id="BBG000B9XRY4",
             instrument_id_type="Figi",
             quote_type="Price",
-            field="mid"
+            field="mid",
         )
 
         effective_date = datetime(2019, 4, 15, tzinfo=pytz.utc)
 
         # get the close quote for AAPL on 15-Apr-19
-        quote_response = self.quotes_api.get_quotes(
-            scope=TestDataUtilities.tutorials_scope,
-            effective_at=effective_date,
-            request_body={"quote1": quote_series_id}
+        quote_response = await quotes_api.get_quotes(
+            scope=DataUtilities.tutorials_scope,
+            effective_at=effective_date.isoformat(),
+            request_body={"quote1": quote_series_id},
         )
 
-        self.assertEqual(len(quote_response.values), 1)
+        assert len(quote_response.values) == 1
 
         quote = quote_response.values["quote1"]
 
-        self.assertEqual(199.23, quote.metric_value.value)
+        assert 199.23 == quote.metric_value.value
 
+    @pytest.mark.asyncio
     @lusid_feature("F14-4")
-    def test_get_timeseries_quotes(self):
-
+    async def test_get_timeseries_quotes(self, quotes_api):
         start_date = datetime(2019, 4, 15, tzinfo=pytz.utc)
         date_range = [start_date + timedelta(days=x) for x in range(0, 30)]
 
@@ -78,18 +68,26 @@ class Quotes(unittest.TestCase):
             instrument_id="BBG000B9XRY4",
             instrument_id_type="Figi",
             quote_type="Price",
-            field="mid"
+            field="mid",
         )
 
-        # get the quotes for each day in the date range
-        quote_responses = [
-            self.quotes_api.get_quotes(
-                scope=TestDataUtilities.market_data_scope,
-                effective_at=d,
-                request_body={"quote1": quote_id}
+        tasks = [
+            quotes_api.get_quotes(
+                scope=DataUtilities.market_data_scope,
+                effective_at=d.isoformat(),
+                request_body={"quote1": quote_id},
             )
             for d in date_range
         ]
 
+        # get the quotes for each day in the date range
+        quote_responses = await asyncio.gather(*tasks)
+
         # flatmap the quotes in the response
-        self.assertEqual(30, len([result for response in quote_responses for result in response.values.values()]))
+        assert 30 == len(
+            [
+                result
+                for response in quote_responses
+                for result in response.values.values()
+            ]
+        )

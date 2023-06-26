@@ -43,12 +43,56 @@ class TestAsyncExamples:
             and retreive the result of the function execution
         """
         # calling without await calls synchronous version automatically
+        request = application_metadata_api.get_lusid_versions(async_req=True)
+        assert request.get() is not None
+
+    @pytest.mark.asyncio
+    async def test_get_lusid_version_multiple_multithreaded(
+        self, application_metadata_api
+    ):
+        """Send request to get lusid version asyncronously using multithreading
+
+        Args:
+            application_metadata_api (lusid.api.ApplicationMetadataApi): api object used to send request to ApplicationMetadata endpoints
+
+        Returns:
+            multiprocessing.pool.AsyncResult: An object with methods to monitor execution of a function in a threadpool,
+            and retreive the result of the function execution
+        """
+        # calling with async_req = True uses threadpool instead of asyncio
+        # returns an ApplyResult object
+        # no need to await request, but must get result from threadpool
         num_requests = 10
         multiple_requests = (
             application_metadata_api.get_lusid_versions(async_req=True)
             for i in range(num_requests)
         )
-        result = await asyncio.gather(
-            *(result_thread.get() for result_thread in multiple_requests)
+
+        result = [request.get() for request in multiple_requests]
+
+        assert len(result) == num_requests
+
+    @pytest.mark.asyncio
+    async def test_get_lusid_version_multiple_single_threaded(
+        self, application_metadata_api
+    ):
+        """Send request to get lusid version asyncronously using multithreading
+
+        Args:
+            application_metadata_api (lusid.api.ApplicationMetadataApi): api object used to send request to ApplicationMetadata endpoints
+
+        Returns:
+            multiprocessing.pool.AsyncResult: An object with methods to monitor execution of a function in a threadpool,
+            and retreive the result of the function execution
+        """
+        # make multiple requests using asyncio and aiohttp to manage context switching for
+        # network calls
+        # requests must be awaited, or use asyncio.gather to continue when all responses are in.
+        num_requests = 10
+        multiple_requests = (
+            application_metadata_api.get_lusid_versions() for i in range(num_requests)
         )
+
+        result = await asyncio.gather(*multiple_requests)
+
         assert len(result) == num_requests
