@@ -16,7 +16,7 @@ requests = "^2.31.0"
 types-pytz = "^2023.3.0.0"
 pytz = "^2023.3"
 pydantic = "^1.10.9"
-lusid = {path = "/Users/adammassoud/work/code/repos/lusid-sdk-examples-python/lusid-2.0.0-py3-none-any.whl"}
+lusid = {path = "../lusid-2.0.0-py3-none-any.whl"}
 
 
 [tool.poetry.group.dev.dependencies]

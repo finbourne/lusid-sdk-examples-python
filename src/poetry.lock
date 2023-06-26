@@ -2,14 +2,14 @@
 
 [[package]]
 name = "aenum"
-version = "3.1.12"
+version = "3.1.14"
 description = "Advanced Enumerations (compatible with Python's stdlib Enum), NamedTuples, and NamedConstants"
 optional = false
 python-versions = "*"
 files = [
-    {file = "aenum-3.1.12-py2-none-any.whl", hash = "sha256:8d79c9e3ec997220e355b96b322e672fb56a53e61744138ed838407e3a07b610"},
-    {file = "aenum-3.1.12-py3-none-any.whl", hash = "sha256:2d544ef7323c088d68abf9a84b9f3f6db0d516fec685e15678b5f84fdb7b8ba0"},
-    {file = "aenum-3.1.12.tar.gz", hash = "sha256:3e531c91860a81f885f7e6e97d219ae9772cb899580084788935dad7d9742ef0"},
+    {file = "aenum-3.1.14-py2-none-any.whl", hash = "sha256:93ba417f1c461d2aab6d107204110381d1b3e53561193ae53df3a17701821777"},
+    {file = "aenum-3.1.14-py3-none-any.whl", hash = "sha256:1d60e15f2e2d4ba66371c19c691edb085ecf82027e773309a9c4291b5cbccc17"},
+    {file = "aenum-3.1.14.tar.gz", hash = "sha256:7c4b04b5c9621533d6311e6ca23ea2ee213c7a992ed0be79a2b944cdaf2a45ec"},
 ]
 
 [[package]]
@@ -411,7 +411,7 @@ description = "LUSID API"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "lusid-2.0.0-py3-none-any.whl", hash = "sha256:b15a3bcd2e6521d7e76618cdaeb30cbe0840d1ae9683598c23263950812d55e9"},
+    {file = "lusid-2.0.0-py3-none-any.whl", hash = "sha256:d4b90acc3b92e3693048c96f99bb20e0f82ee94ba7f1c188eb2a05c3fd90906a"},
 ]
 
 [package.dependencies]
@@ -941,4 +941,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "05a643464135cca638c228b509239fe1908d5ad7fc8d828dfb4f586de1c3a75d"
+content-hash = "13b52c454b032ae837cbaa3d4689a2fbb7e769b2312ce0249c1abd3705619ea6"
