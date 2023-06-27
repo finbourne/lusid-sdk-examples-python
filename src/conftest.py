@@ -19,7 +19,7 @@ def data_utilities(transaction_portfolios_api):
 
 @pytest_asyncio.fixture(scope="class")
 async def api_client_factory():
-    async with lusid.utilities.ApiClientFactory() as api_client_factory:
+    async with lusid.extensions.ApiClientFactory() as api_client_factory:
         yield api_client_factory
         await asyncio.sleep(0.025)
 
