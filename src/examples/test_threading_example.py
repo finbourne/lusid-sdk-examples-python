@@ -44,7 +44,7 @@ class TestAsyncExamples:
         """
         # calling without await calls synchronous version automatically
         request = application_metadata_api.get_lusid_versions(async_req=True)
-        assert request.get() is not None
+        assert await request.get() is not None
 
     @pytest.mark.asyncio
     async def test_get_lusid_version_multiple_multithreaded(
@@ -61,14 +61,14 @@ class TestAsyncExamples:
         """
         # calling with async_req = True uses threadpool instead of asyncio
         # returns an ApplyResult object
-        # no need to await request, but must get result from threadpool
+        # no need to await request, but must get result from threadpool and await that.
         num_requests = 10
         multiple_requests = (
             application_metadata_api.get_lusid_versions(async_req=True)
             for i in range(num_requests)
         )
 
-        result = [request.get() for request in multiple_requests]
+        result = await asyncio.gather(*[request.get() for request in multiple_requests])
 
         assert len(result) == num_requests
 
