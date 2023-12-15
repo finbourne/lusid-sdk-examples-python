@@ -1,35 +1,31 @@
 import json
 import logging
-import unittest
 from datetime import datetime
 
 import pytz
 
 import lusid
 import lusid.models as models
-from utilities import TestDataUtilities, IdGenerator
-from utilities.id_generator_utilities import delete_entities
+from utilities import DataUtilities
+import unittest
+import pytest
+import pytest_asyncio
 
 
-class MultiLabelPropertyTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
+@pytest_asyncio.fixture(scope="class")
+async def default_scope():
+    return DataUtilities.tutorials_scope
 
-        logging.basicConfig(level=logging.INFO)
 
-        # create a configured API client
-        api_client = TestDataUtilities.api_client()
-        cls.property_definitions_api = lusid.PropertyDefinitionsApi(api_client)
-        cls.instruments_api = lusid.InstrumentsApi(api_client)
-        cls.portfolios_api = lusid.PortfoliosApi(api_client)
-        cls.transaction_portfolios_api = lusid.TransactionPortfoliosApi(api_client)
-        cls.id_generator = IdGenerator(scope=TestDataUtilities.tutorials_scope)
-
-    @classmethod
-    def tearDownClass(cls):
-        delete_entities(cls.id_generator)
-
-    def test_create_portfolio_with_mv_property(self):
+class TestMultiLabelProperties:
+    @pytest.mark.asyncio
+    async def test_create_portfolio_with_mv_property(
+        self,
+        property_definitions_api,
+        id_generator,
+        transaction_portfolios_api,
+        portfolios_api,
+    ):
         # Details of property to be created
         effective_date = datetime(year=2018, month=1, day=1, tzinfo=pytz.utc)
         scope = "MultiValueProperties"
@@ -47,17 +43,23 @@ class MultiLabelPropertyTests(unittest.TestCase):
 
         # create property definition
         try:
-            self.property_definitions_api.create_property_definition(
+            await property_definitions_api.create_property_definition(
                 create_property_definition_request=multi_value_property_definition
             )
         except lusid.ApiException as e:
             if json.loads(e.body)["name"] == "PropertyAlreadyExists":
                 logging.info(
-                    f"Property {multi_value_property_definition.domain}/{multi_value_property_definition.scope}/{multi_value_property_definition.display_name} already exists"
+                    f"Property {multi_value_property_definition.domain}/\
+                    {multi_value_property_definition.scope}/\
+                    {multi_value_property_definition.display_name} already exists"
                 )
         finally:
-            self.id_generator.add_scope_and_code("property_definition", multi_value_property_definition.scope,
-                                                 multi_value_property_definition.code, ["Portfolio"])
+            id_generator.add_scope_and_code(
+                "property_definition",
+                multi_value_property_definition.scope,
+                multi_value_property_definition.code,
+                ["Portfolio"],
+            )
 
         schedule = [
             '{ "2019-12-31" : "5"}',
@@ -76,7 +78,7 @@ class MultiLabelPropertyTests(unittest.TestCase):
 
         # create portfolio
         try:
-            self.transaction_portfolios_api.create_portfolio(
+            await transaction_portfolios_api.create_portfolio(
                 scope=scope,
                 create_transaction_portfolio_request=create_portfolio_request,
             )
@@ -86,9 +88,9 @@ class MultiLabelPropertyTests(unittest.TestCase):
                     f"Portfolio {create_portfolio_request.code} already exists"
                 )
         finally:
-            self.id_generator.add_scope_and_code("portfolio", scope, portfolio_code)
+            id_generator.add_scope_and_code("portfolio", scope, portfolio_code)
 
-        self.portfolios_api.upsert_portfolio_properties(
+        await portfolios_api.upsert_portfolio_properties(
             scope=scope,
             code=portfolio_code,
             request_body={
@@ -102,14 +104,14 @@ class MultiLabelPropertyTests(unittest.TestCase):
         )
 
         # get properties for assertions
-        portfolio_properties = self.portfolios_api.get_portfolio_properties(
-            scope=scope, code=portfolio_code
+        portfolio_properties = (
+            await portfolios_api.get_portfolio_properties(
+                scope=scope, code=portfolio_code
+            )
         ).properties
         label_value_set = portfolio_properties[
             f"Portfolio/MultiValueProperties/{code}"
         ].value.label_value_set.values
-        self.assertCountEqual(label_value_set, schedule)
 
-
-if __name__ == "__main__":
-    unittest.main()
+        case = unittest.TestCase()
+        case.assertCountEqual(label_value_set, schedule)
