@@ -47,7 +47,9 @@ class TestTransactionProperties:
         except lusid.ApiException as e:
             if json.loads(e.body)["name"] == "PropertyAlreadyExists":
                 self.root_logger.info(
-                    f"Property {property_definition.domain}/{property_definition.scope}/{property_definition.code} already exists"
+                    f"Property {property_definition.domain}/\
+                    {property_definition.scope}/\
+                    {property_definition.code} already exists"
                 )
         finally:
             id_generator.add_scope_and_code(
@@ -152,7 +154,8 @@ class TestTransactionProperties:
         )
         assert txn_response is not None
 
-        # Parse property value from transaction and assert is equal to original string object
+        # Parse property value from transaction and
+        # assert is equal to original string object
         queried_property_string = (
             txn_response.values[0]
             .properties[f"Transaction/{scope}/{code}"]

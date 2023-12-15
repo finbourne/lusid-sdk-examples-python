@@ -16,7 +16,6 @@ def default_scope(scope="class"):
 
 class TestTransactions:
     @pytest.mark.asyncio
-    
     async def test_load_listed_instrument_transaction(
         self, data_utilities, id_generator, instruments, transaction_portfolios_api
     ):
@@ -63,7 +62,6 @@ class TestTransactions:
         assert transactions.values[0].transaction_id == transaction.transaction_id
 
     @pytest.mark.asyncio
-    
     async def test_load_cash_transaction(
         self, data_utilities, id_generator, transaction_portfolios_api
     ):
@@ -83,7 +81,8 @@ class TestTransactions:
             transaction_id=str(uuid.uuid4()),
             # transaction type, configured during system setup
             type="FundsIn",
-            # Cash instruments are identified using CCY_ followed by the ISO currency codes.
+            # Cash instruments are identified
+            # using CCY_ followed by the ISO currency codes.
             # Cash instruments do not need to be created before use
             instrument_identifiers={DataUtilities.lusid_cash_identifier: "GBP"},
             transaction_date=trade_date,
@@ -110,7 +109,6 @@ class TestTransactions:
         assert transactions.values[0].transaction_id == transaction.transaction_id
 
     @pytest.mark.asyncio
-    
     async def test_cancel_transactions(
         self, data_utilities, id_generator, instruments, transaction_portfolios_api
     ):

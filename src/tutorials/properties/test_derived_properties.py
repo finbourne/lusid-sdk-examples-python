@@ -37,7 +37,9 @@ class TestDerivedProperties:
             except lusid.ApiException as e:
                 if json.loads(e.body)["name"] == "PropertyAlreadyExists":
                     logging.info(
-                        f"Property {property_definition.domain}/{property_definition.scope}/{property_definition.display_name} already exists"
+                        f"Property {property_definition.domain}/\
+                        {property_definition.scope}/\
+                        {property_definition.display_name} already exists"
                     )
             finally:
                 id_generator.add_scope_and_code(
@@ -96,7 +98,8 @@ class TestDerivedProperties:
             property_definitions_api, id_generator, "Fitch", "Moodys"
         )
 
-        # create instrument property edge cases and upsert (using arbitrary numeric ratings)
+        # create instrument property edge cases and upsert
+        # (using arbitrary numeric ratings)
         await self.upsert_ratings_property(
             instruments_api, "BBG00KTDTF73", fitch_value=10, moodys_value=5
         )
@@ -110,7 +113,9 @@ class TestDerivedProperties:
 
         # create derived property using the 'Coalesce' derivation formula
         code = "DerivedRating"
-        derivation_formula = f"Coalesce(Properties[Instrument/{scope}/MoodysRating], Properties[Instrument/{scope}/FitchRating], 0)"
+        derivation_formula = f"Coalesce(Properties[Instrument/{scope}/MoodysRating], \
+                            Properties[Instrument/{scope}/FitchRating],\
+                            0)"
 
         # create derived property request
         derived_prop_definition_req = models.CreateDerivedPropertyDefinitionRequest(
@@ -130,7 +135,9 @@ class TestDerivedProperties:
         except lusid.ApiException as e:
             if json.loads(e.body)["name"] == "PropertyAlreadyExists":
                 logging.info(
-                    f"Property {derived_prop_definition_req.domain}{derived_prop_definition_req.scope}/{derived_prop_definition_req.display_name} already exists"
+                    f"Property {derived_prop_definition_req.domain}\
+                    {derived_prop_definition_req.scope}/\
+                    {derived_prop_definition_req.display_name} already exists"
                 )
         finally:
             id_generator.add_scope_and_code(

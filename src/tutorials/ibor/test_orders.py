@@ -34,16 +34,17 @@ def codes():
 async def load_properties(property_definitions_api, id_generator, scopes, codes):
     for scope in scopes.values():
         for code in codes:
+            create_property_definition_request = models.CreatePropertyDefinitionRequest(
+                domain="Order",
+                scope=scope,
+                code=code,
+                display_name=code,
+                constraint_style="Property",
+                data_type_id=lusid.ResourceId(scope="system", code="string"),
+            )
             try:
                 await property_definitions_api.create_property_definition(
-                    create_property_definition_request=models.CreatePropertyDefinitionRequest(
-                        domain="Order",
-                        scope=scope,
-                        code=code,
-                        display_name=code,
-                        constraint_style="Property",
-                        data_type_id=lusid.ResourceId(scope="system", code="string"),
-                    )
+                    create_property_definition_request=create_property_definition_request  # noqa: E501
                 )
             except lusid.ApiException as e:
                 if json.loads(e.body)["name"] == "PropertyAlreadyExists":
@@ -56,7 +57,6 @@ async def load_properties(property_definitions_api, id_generator, scopes, codes)
 
 class TestOrders:
     @pytest.mark.asyncio
-    
     async def test_upsert_simple_order(
         self,
         orders_api,

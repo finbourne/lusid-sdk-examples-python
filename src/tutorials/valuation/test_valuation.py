@@ -158,8 +158,9 @@ class TestValuation:
         """
         General valuation/aggregation test
         """
-        # create recipe (provides model parameters, locations to use in resolving market data etc.
-        # and push it into LUSID. Only needs to happen once each time when updated, or first time run to create.
+        # create recipe (provides model parameters,
+        # locations to use in resolving market data etc. and push it into LUSID.
+        # Only needs to happen once each time when updated, or first time run to create.
         recipe_scope, recipe_code = (
             "TestRecipes",
             "SimpleQuotes",

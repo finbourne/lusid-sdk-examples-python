@@ -10,7 +10,8 @@ class IdGenerator:
         Parameters
         ----------
         scope : str, optional
-          scope to use for subsequent calls to generate ids, when no scope is provided defaults
+          scope to use for subsequent calls to generate ids,
+          when no scope is provided defaults
           to `sdk_example`
         """
         self.scope = scope if scope is not None else self.default_scope
@@ -25,7 +26,8 @@ class IdGenerator:
         Parameters
         ----------
         entity : str
-            User defined string to describe the entity the scope and code is being generated for. This is returned
+            User defined string to describe the entity the scope
+            and code is being generated for. This is returned
             when calling ``pop_scope_and_codes``
         scope : str, optional
             Scope to use, if not supplied the default one will be used
@@ -37,7 +39,8 @@ class IdGenerator:
         Returns
         -------
         (str, str, str, ...)
-            The generated (entity, scope, code, ...) where ... are any supplied annotation values
+            The generated (entity, scope, code, ...) where ... are
+            any supplied annotation values
 
         """
         scope = scope if scope is not None else self.scope
@@ -57,7 +60,8 @@ class IdGenerator:
         Parameters
         ----------
         entity : str
-            User defined string to describe the entity the scope and code is being generated for. This is returned
+            User defined string to describe the entity the scope
+            and code is being generated for. This is returned
             when calling ``pop_scope_and_codes``
         scope : str
             Scope of the entity
@@ -69,7 +73,8 @@ class IdGenerator:
         Returns
         -------
         (str, str, str, ...)
-            The generated (entity, scope, code, ...) where ... are any supplied annotation values
+            The generated (entity, scope, code, ...) where ... are
+            any supplied annotation values
 
         """
         item = (entity, scope, code, *annotations)
@@ -85,7 +90,8 @@ class IdGenerator:
 
     def pop_scope_and_codes(self):
         """
-        Generator returning the generated scope and code. Generated ids are deleted after being returned
+        Generator returning the generated scope and code.
+        Generated ids are deleted after being returned
 
         Yields
         -------

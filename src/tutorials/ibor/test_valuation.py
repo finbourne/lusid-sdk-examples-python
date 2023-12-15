@@ -16,7 +16,6 @@ def default_scope(scope="class"):
 
 class TestValuation:
     @pytest.mark.asyncio
-    
     async def test_portfolio_aggregation(
         self,
         data_utilities,
@@ -138,7 +137,6 @@ class TestValuation:
             ],
             valuation_schedule=models.ValuationSchedule(effective_at=effective_date),
         )
-        val_r_json = valuation_request.to_json()
 
         #   do the aggregation
         aggregation = await aggregation_api.get_valuation(

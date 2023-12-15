@@ -21,11 +21,13 @@ class DataUtilities:
     async def create_transaction_portfolio(self, scope):
         guid = str(uuid.uuid4())
 
-        # Effective date of the portfolio, this is the date the portfolio was created and became live.
+        # Effective date of the portfolio,
+        # this is the date the portfolio was created and became live.
         # All dates/times must be supplied in UTC
         effective_date = datetime(2018, 1, 1, tzinfo=pytz.utc)
 
-        # Details of the new portfolio to be created, created here with the minimum set of mandatory fields
+        # Details of the new portfolio to be created,
+        # created here with the minimum set of mandatory fields
         request = models.CreateTransactionPortfolioRequest(
             display_name="Portfolio-{}".format(guid),
             code="Id-{}".format(guid),

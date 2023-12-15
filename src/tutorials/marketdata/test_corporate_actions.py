@@ -18,7 +18,6 @@ def default_scope(scope="class"):
 
 class TestCorporateActions:
     @pytest.mark.asyncio
-    
     async def test_name_change_corporate_action(
         self,
         instruments_api,
@@ -29,7 +28,8 @@ class TestCorporateActions:
         """The code below shows how to process a corporate action name change in LUSID:
         Create two instruments, the original and the updated instrument.
         Create a portfolio and add a transaction to it for the original instrument.
-        Create a corporate action source, and a corporate action comprising a transition.
+        Create a corporate action source,
+        and a corporate action comprising a transition.
         Upsert the corporate action, then check that the holding instrument was changed.
         """
         # Define details for the corporate action.
@@ -64,15 +64,18 @@ class TestCorporateActions:
         )
 
         try:
-            # Create a transaction portfolio to hold the original instrument.
-            await transaction_portfolios_api.create_portfolio(
-                scope=scope,
-                create_transaction_portfolio_request=models.CreateTransactionPortfolioRequest(
+            create_transaction_portfolio_request = (
+                models.CreateTransactionPortfolioRequest(
                     code=portfolio_code,
                     display_name=portfolio_code,
                     base_currency="GBP",
                     created=effective_at_date.isoformat(),
-                ),
+                )
+            )
+            # Create a transaction portfolio to hold the original instrument.
+            await transaction_portfolios_api.create_portfolio(
+                scope=scope,
+                create_transaction_portfolio_request=create_transaction_portfolio_request,  # noqa: E501
             )
         except lusid.ApiException as e:
             if json.loads(e.body)["name"] == "PortfolioWithIdAlreadyExists":
@@ -208,7 +211,8 @@ class TestCorporateActions:
             property_keys=["Instrument/default/Figi"],
         )
 
-        # The holding for the original instrument is now against the new instrument's FIGI.
+        # The holding for the original instrument
+        # is now against the new instrument's FIGI.
         assert (
             holdings.values[0]
             .properties[DataUtilities.lusid_figi_identifier]
@@ -217,7 +221,6 @@ class TestCorporateActions:
         )
 
     @pytest.mark.asyncio
-    
     async def test_list_corporate_action_sources(
         self, id_generator, corporate_actions_sources_api
     ):

@@ -7,6 +7,7 @@ class TempFileManager:
     """
     This class is used for managing the creation and deletion of temporary files
     """
+
     @staticmethod
     def create_temp_file(payload):
         """

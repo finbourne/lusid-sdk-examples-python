@@ -16,7 +16,6 @@ def default_scope(scope="class"):
 
 class TestProperties:
     @pytest.mark.asyncio
-    
     async def test_create_portfolio_with_label_property(
         self,
         id_generator,
@@ -97,7 +96,6 @@ class TestProperties:
         assert label_property.value.label_value == property_value.label_value
 
     @pytest.mark.asyncio
-    
     async def test_create_portfolio_with_metric_property(
         self,
         id_generator,
@@ -140,7 +138,8 @@ class TestProperties:
         )
         # metric_property_value_request = models.PropertyValue(label_value="Active")
 
-        # Details of the new portfolio to be created, created here with the minimum set of mandatory fields
+        # Details of the new portfolio to be created,
+        # created here with the minimum set of mandatory fields
 
         _, scope, portfolio_code = id_generator.generate_scope_and_code(
             "portfolio",

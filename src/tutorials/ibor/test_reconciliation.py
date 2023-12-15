@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 import pytz
 
 
-
 import lusid.models as models
 from utilities import DataUtilities
 import pytest
@@ -16,7 +15,6 @@ def default_scope(scope="class"):
 
 class TestReconciliation:
     @pytest.mark.asyncio
-    
     async def test_reconcile_portfolio(
         self,
         id_generator,
@@ -152,8 +150,10 @@ class TestReconciliation:
         # get the time of the last update
         last_as_at = transactions_response.version.as_at_date
 
-        # We now have the portfolio with 2 days worth of transactions, going to reconcile from T-1 20:00 to now,
-        # this should reflect breaks for each instrument equal to the transactions from yesterday till 20:00 today
+        # We now have the portfolio with 2 days worth of transactions,
+        # going to reconcile from T-1 20:00 to now,
+        # this should reflect breaks for each instrument equal
+        # to the transactions from yesterday till 20:00 today
         reconciliation_request = models.PortfoliosReconciliationRequest(
             left=models.PortfolioReconciliationRequest(
                 portfolio_id=models.ResourceId(

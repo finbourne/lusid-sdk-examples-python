@@ -141,7 +141,8 @@ class TestCutLabels:
 
         currency = "GBP"
 
-        # set a currency LUID, as the call to GetHoldings returns the LUID not the identifier we are about to create
+        # set a currency LUID, as the call to GetHoldings
+        # returns the LUID not the identifier we are about to create
         currency_luid = "CCY_{}".format(currency)
 
         # Set initial holdings for each instrument from LondonOpen 5 days ago
@@ -194,7 +195,8 @@ class TestCutLabels:
             code=portfolio_code,
             effective_at=get_holdings_cut_label,
         )
-        # check that holdings are as expected before transactions occur for each instrument
+        # check that holdings are as expected before
+        # transactions occur for each instrument
         holdings.values.sort(key=lambda i: i.instrument_uid)
         assert len(holdings.values) == 4
         data_utilities.TestDataUtilities.assert_cash_holdings(
@@ -222,7 +224,8 @@ class TestCutLabels:
             cost_amount=9900.0,
         )
 
-        # Add transactions at different times in different time zones during the day with cut labels
+        # Add transactions at different times in
+        # different time zones during the day with cut labels
         transaction_1_cut_label = cut_label_formatter(date.today(), code["LondonOpen"])
         transaction_2_cut_label = cut_label_formatter(
             date.today(), code["SingaporeClose"]

@@ -15,14 +15,14 @@ async def default_scope():
 
 class TestHoldings:
     @pytest.mark.asyncio
-    
     async def test_get_holdings(
         self, test_data_utilities, id_generator, instruments, transaction_portfolios_api
     ):
         # The currency of the cash and transactions
         currency = "GBP"
 
-        # The dates for which transactions are added to the portfolio. All dates/times must be supplied in UTC
+        # The dates for which transactions are added to the portfolio.
+        # All dates/times must be supplied in UTC
         day_t1 = datetime(2018, 1, 1, tzinfo=pytz.utc).isoformat()
         day_tplus5 = datetime(2018, 1, 5, tzinfo=pytz.utc).isoformat()
         day_tplus10 = datetime(2018, 1, 10, tzinfo=pytz.utc).isoformat()
@@ -50,7 +50,8 @@ class TestHoldings:
             test_data_utilities.build_transaction_request(
                 instruments[2], 100.0, 103.0, currency, day_t1, "Buy"
             ),
-            # On T+5, add a transaction in another instrument and another to increase the amount of instrument 1
+            # On T+5, add a transaction in another instrument
+            # and another to increase the amount of instrument 1
             test_data_utilities.build_transaction_request(
                 instruments[1], 100.0, 104.0, currency, day_tplus5, "Buy"
             ),
@@ -71,7 +72,8 @@ class TestHoldings:
             DataUtilities.tutorials_scope, portfolio_id, effective_at=day_tplus10
         )
 
-        # Ensure we have 5 holdings: 1 cash position and a position in 4 instruments that aggregates the 5 transactions
+        # Ensure we have 5 holdings: 1 cash position
+        # and a position in 4 instruments that aggregates the 5 transactions
         assert len(holdings.values) == 5, "Unexpected number of holdings"
 
         holdings.values.sort(key=lambda x: x.instrument_uid)
@@ -114,7 +116,6 @@ class TestHoldings:
         assert holdings.values[4].cost.amount == 10500.0, "Incorrect amount"
 
     @pytest.mark.asyncio
-    
     async def test_set_target_holdings(
         self, test_data_utilities, id_generator, instruments, transaction_portfolios_api
     ):
@@ -225,7 +226,8 @@ class TestHoldings:
         # cash balance + 3 holdings
         assert len(holdings.values) == 4
 
-        # remaining cash balance which takes into account the purchase transactions on day 2
+        # remaining cash balance which takes
+        # into account the purchase transactions on day 2
 
         # the call to GetHoldings returns the LUID not the identifier we created
         currency_luid = f"CCY_{currency}"

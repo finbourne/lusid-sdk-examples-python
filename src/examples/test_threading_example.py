@@ -16,10 +16,12 @@ class TestAsyncExamples:
         """Send request to get lusid version asyncronously
 
         Args:
-            application_metadata_api (lusid.api.ApplicationMetadataApi): api object used to send request to ApplicationMetadata endpoints
+            application_metadata_api (lusid.api.ApplicationMetadataApi):
+            api object used to send request to ApplicationMetadata endpoints
 
         Returns:
-            lusid.model.version_summary_dto.VersionSummaryDto: The summary of the running lusid version
+            lusid.model.version_summary_dto.VersionSummaryDto:
+            The summary of the running lusid version
         """
         # no longer need to call with async_req = True
         # calling with async_req = True will execute request using a ThreadPool
@@ -36,10 +38,12 @@ class TestAsyncExamples:
         """Send request to get lusid version asyncronously using multithreading
 
         Args:
-            application_metadata_api (lusid.api.ApplicationMetadataApi): api object used to send request to ApplicationMetadata endpoints
+            application_metadata_api (lusid.api.ApplicationMetadataApi):
+            api object used to send request to ApplicationMetadata endpoints
 
         Returns:
-            multiprocessing.pool.AsyncResult: An object with methods to monitor execution of a function in a threadpool,
+            multiprocessing.pool.AsyncResult:
+            An object with methods to monitor execution of a function in a threadpool,
             and retreive the result of the function execution
         """
         # calling without await calls synchronous version automatically
@@ -53,10 +57,12 @@ class TestAsyncExamples:
         """Send request to get lusid version asyncronously using multithreading
 
         Args:
-            application_metadata_api (lusid.api.ApplicationMetadataApi): api object used to send request to ApplicationMetadata endpoints
+            application_metadata_api (lusid.api.ApplicationMetadataApi):
+              api object used to send request to ApplicationMetadata endpoints
 
         Returns:
-            multiprocessing.pool.AsyncResult: An object with methods to monitor execution of a function in a threadpool,
+            multiprocessing.pool.AsyncResult: An object with methods
+            to monitor execution of a function in a threadpool,
             and retreive the result of the function execution
         """
         # calling with async_req = True uses threadpool instead of asyncio
@@ -79,15 +85,18 @@ class TestAsyncExamples:
         """Send request to get lusid version asyncronously using multithreading
 
         Args:
-            application_metadata_api (lusid.api.ApplicationMetadataApi): api object used to send request to ApplicationMetadata endpoints
+            application_metadata_api (lusid.api.ApplicationMetadataApi): api object used
+              to send request to ApplicationMetadata endpoints
 
         Returns:
-            multiprocessing.pool.AsyncResult: An object with methods to monitor execution of a function in a threadpool,
+            multiprocessing.pool.AsyncResult:
+            An object with methods to monitor execution of a function in a threadpool,
             and retreive the result of the function execution
         """
-        # make multiple requests using asyncio and aiohttp to manage context switching for
-        # network calls
-        # requests must be awaited, or use asyncio.gather to continue when all responses are in.
+        # make multiple requests using asyncio and aiohttp
+        # to manage context switching for network calls
+        # requests must be awaited,
+        # or use asyncio.gather to continue when all responses are in.
         num_requests = 10
         multiple_requests = (
             application_metadata_api.get_lusid_versions() for i in range(num_requests)

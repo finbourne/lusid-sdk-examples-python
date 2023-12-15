@@ -16,7 +16,6 @@ def default_scope(scope="class"):
 
 class TestPortfolios:
     @pytest.mark.asyncio
-    
     async def test_create_portfolio(self, id_generator, transaction_portfolios_api):
         _, scope, portfolio_code = id_generator.generate_scope_and_code(
             "portfolio",
@@ -24,7 +23,8 @@ class TestPortfolios:
             code_prefix="portfolio-",
         )
 
-        # details of the new portfolio to be created, created here with the minimum set of mandatory fields
+        # details of the new portfolio to be created,
+        # created here with the minimum set of mandatory fields
         request = models.CreateTransactionPortfolioRequest(
             # descriptive name for the portfolio
             display_name=portfolio_code,
@@ -41,7 +41,6 @@ class TestPortfolios:
         assert result.id.code == request.code
 
     @pytest.mark.asyncio
-    
     async def test_create_portfolio_with_properties(
         self,
         id_generator,
@@ -119,12 +118,12 @@ class TestPortfolios:
         )
 
     @pytest.mark.asyncio
-    
     async def test_add_transaction_to_portfolio(
         self, data_utilities, id_generator, transaction_portfolios_api, instruments
     ):
-        # effective date of the portfolio, this is the date the portfolio was created and became live.  All dates/times
-        # must be supplied in UTC
+        # effective date of the portfolio
+        # this is the date the portfolio was created and became live.
+        # All dates/times must be supplied in UTC
         effective_date = datetime(2018, 1, 1, tzinfo=pytz.utc).isoformat()
 
         # create the portfolio
@@ -168,7 +167,6 @@ class TestPortfolios:
         assert trades.values[0].transaction_id == transaction.transaction_id
 
     @pytest.mark.asyncio
-    
     async def test_add_transaction_to_portfolio_with_property(
         self,
         id_generator,
@@ -191,8 +189,10 @@ class TestPortfolios:
             # the scope the property will be created in
             scope=scope,
             life_time="Perpetual",
-            # when the property value is set it will be valid forever and cannot be changed.
-            # properties whose values can change over time should be created with LifeTimeEnum.TIMEVARIANT
+            # when the property value is set
+            # it will be valid forever and cannot be changed.
+            # properties whose values can change over time
+            # should be created with LifeTimeEnum.TIMEVARIANT
             code=property_code,
             value_required=False,
             display_name="Trader Id",
@@ -263,7 +263,6 @@ class TestPortfolios:
         )
 
     @pytest.mark.asyncio
-    
     async def test_list_portfolios(self, data_utilities, id_generator, portfolios_api):
         # This defines the scope that the portfolios will be retrieved from
         scope = DataUtilities.tutorials_scope + str(uuid.uuid4())

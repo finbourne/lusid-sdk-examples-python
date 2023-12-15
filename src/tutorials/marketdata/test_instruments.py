@@ -28,7 +28,6 @@ class TestInstruments:
             )
 
     @pytest.mark.asyncio
-    
     async def test_seed_instrument_master(self, instruments_api):
         response = await instruments_api.upsert_instruments(
             request_body={
@@ -83,7 +82,6 @@ class TestInstruments:
         assert len(response.values) == 5, response.failed
 
     @pytest.mark.asyncio
-    
     async def test_lookup_instrument_by_unique_id(self, instruments_api):
         figi = "BBG00KTDTF73"
 
@@ -126,13 +124,11 @@ class TestInstruments:
         assert property.value.label_value == "internal_id_1_example"
 
     @pytest.mark.asyncio
-    
     async def test_list_available_identifiers(self, instruments_api):
         identifiers = await instruments_api.get_instrument_identifier_types()
         assert len(identifiers.values) > 0
 
     @pytest.mark.asyncio
-    
     async def test_list_all_instruments(self, instruments_api):
         page_size = 5
 
@@ -142,7 +138,6 @@ class TestInstruments:
         assert len(instruments.values) <= page_size
 
     @pytest.mark.asyncio
-    
     async def test_list_instruments_by_identifier_type(self, instruments_api):
         figis = ["BBG00KTDTF73", "BBG00Y271826", "BBG00L7XVNP1"]
 
@@ -155,7 +150,6 @@ class TestInstruments:
             assert figi in instruments.values, f"{figi} not returned"
 
     @pytest.mark.asyncio
-    
     async def test_edit_instrument_property(self, instruments_api):
         property_value = models.PropertyValue(label_value="Insurance")
         property_key = f"Instrument/{DataUtilities.tutorials_scope}/CustomSector"

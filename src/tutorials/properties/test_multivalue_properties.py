@@ -49,7 +49,9 @@ class TestMultiLabelProperties:
         except lusid.ApiException as e:
             if json.loads(e.body)["name"] == "PropertyAlreadyExists":
                 logging.info(
-                    f"Property {multi_value_property_definition.domain}/{multi_value_property_definition.scope}/{multi_value_property_definition.display_name} already exists"
+                    f"Property {multi_value_property_definition.domain}/\
+                    {multi_value_property_definition.scope}/\
+                    {multi_value_property_definition.display_name} already exists"
                 )
         finally:
             id_generator.add_scope_and_code(
