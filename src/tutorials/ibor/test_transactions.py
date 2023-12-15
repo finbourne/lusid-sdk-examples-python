@@ -16,7 +16,7 @@ def default_scope(scope="class"):
 
 class TestTransactions:
     @pytest.mark.asyncio
-    @lusid_feature("F13-1")
+    
     async def test_load_listed_instrument_transaction(
         self, data_utilities, id_generator, instruments, transaction_portfolios_api
     ):
@@ -63,7 +63,7 @@ class TestTransactions:
         assert transactions.values[0].transaction_id == transaction.transaction_id
 
     @pytest.mark.asyncio
-    @lusid_feature("F13-2")
+    
     async def test_load_cash_transaction(
         self, data_utilities, id_generator, transaction_portfolios_api
     ):
@@ -110,7 +110,7 @@ class TestTransactions:
         assert transactions.values[0].transaction_id == transaction.transaction_id
 
     @pytest.mark.asyncio
-    @lusid_feature("F13-6")
+    
     async def test_cancel_transactions(
         self, data_utilities, id_generator, instruments, transaction_portfolios_api
     ):

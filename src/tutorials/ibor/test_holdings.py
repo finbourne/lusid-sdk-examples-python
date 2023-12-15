@@ -16,7 +16,7 @@ async def default_scope():
 
 class TestHoldings:
     @pytest.mark.asyncio
-    @lusid_feature("F15-3")
+    
     async def test_get_holdings(
         self, test_data_utilities, id_generator, instruments, transaction_portfolios_api
     ):
@@ -115,7 +115,7 @@ class TestHoldings:
         assert holdings.values[4].cost.amount == 10500.0, "Incorrect amount"
 
     @pytest.mark.asyncio
-    @lusid_feature("F15-1")
+    
     async def test_set_target_holdings(
         self, test_data_utilities, id_generator, instruments, transaction_portfolios_api
     ):

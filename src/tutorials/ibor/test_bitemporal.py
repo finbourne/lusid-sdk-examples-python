@@ -2,7 +2,6 @@ from datetime import datetime
 from time import sleep
 
 import pytz
-from lusidfeature import lusid_feature
 
 from utilities import DataUtilities
 import pytest
@@ -16,7 +15,6 @@ async def default_scope():
 
 class TestBitemporal:
     @pytest.mark.asyncio
-    @lusid_feature("F13-7")
     async def test_apply_bitemporal_portfolio_change(
         self,
         test_data_utilities,

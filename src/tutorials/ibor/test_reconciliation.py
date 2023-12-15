@@ -16,7 +16,7 @@ def default_scope(scope="class"):
 
 class TestReconciliation:
     @pytest.mark.asyncio
-    @lusid_feature("F20-1")
+    
     async def test_reconcile_portfolio(
         self,
         id_generator,

@@ -57,7 +57,7 @@ async def load_properties(property_definitions_api, id_generator, scopes, codes)
 
 class TestOrders:
     @pytest.mark.asyncio
-    @lusid_feature("F9-1")
+    
     async def test_upsert_simple_order(
         self,
         orders_api,

@@ -11,7 +11,7 @@ import asyncio
 
 class TestQuotes:
     @pytest.mark.asyncio
-    @lusid_feature("F14-1")
+    
     async def test_add_quote(self, quotes_api):
         request = models.UpsertQuoteRequest(
             quote_id=models.QuoteId(
@@ -32,7 +32,7 @@ class TestQuotes:
         )
 
     @pytest.mark.asyncio
-    @lusid_feature("F14-1")
+    
     async def test_get_quote_for_instrument_for_single_day(self, quotes_api):
         quote_series_id = models.QuoteSeriesId(
             provider="DataScope",
@@ -58,7 +58,7 @@ class TestQuotes:
         assert 199.23 == quote.metric_value.value
 
     @pytest.mark.asyncio
-    @lusid_feature("F14-4")
+    
     async def test_get_timeseries_quotes(self, quotes_api):
         start_date = datetime(2019, 4, 15, tzinfo=pytz.utc)
         date_range = [start_date + timedelta(days=x) for x in range(0, 30)]

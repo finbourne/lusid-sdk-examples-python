@@ -16,7 +16,7 @@ def default_scope(scope="class"):
 
 class TestPortfolios:
     @pytest.mark.asyncio
-    @lusid_feature("F1-4")
+    
     async def test_create_portfolio(self, id_generator, transaction_portfolios_api):
         _, scope, portfolio_code = id_generator.generate_scope_and_code(
             "portfolio",
@@ -41,7 +41,7 @@ class TestPortfolios:
         assert result.id.code == request.code
 
     @pytest.mark.asyncio
-    @lusid_feature("F1-1")
+    
     async def test_create_portfolio_with_properties(
         self,
         id_generator,
@@ -119,7 +119,7 @@ class TestPortfolios:
         )
 
     @pytest.mark.asyncio
-    @lusid_feature("F13-1")
+    
     async def test_add_transaction_to_portfolio(
         self, data_utilities, id_generator, transaction_portfolios_api, instruments
     ):
@@ -168,7 +168,7 @@ class TestPortfolios:
         assert trades.values[0].transaction_id == transaction.transaction_id
 
     @pytest.mark.asyncio
-    @lusid_feature("F13-4")
+    
     async def test_add_transaction_to_portfolio_with_property(
         self,
         id_generator,
@@ -263,7 +263,7 @@ class TestPortfolios:
         )
 
     @pytest.mark.asyncio
-    @lusid_feature("F2-4")
+    
     async def test_list_portfolios(self, data_utilities, id_generator, portfolios_api):
         # This defines the scope that the portfolios will be retrieved from
         scope = DataUtilities.tutorials_scope + str(uuid.uuid4())

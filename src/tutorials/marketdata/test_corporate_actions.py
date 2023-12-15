@@ -18,7 +18,7 @@ def default_scope(scope="class"):
 
 class TestCorporateActions:
     @pytest.mark.asyncio
-    @lusid_feature("F12-4")
+    
     async def test_name_change_corporate_action(
         self,
         instruments_api,
@@ -217,7 +217,7 @@ class TestCorporateActions:
         )
 
     @pytest.mark.asyncio
-    @lusid_feature("F12-6")
+    
     async def test_list_corporate_action_sources(
         self, id_generator, corporate_actions_sources_api
     ):

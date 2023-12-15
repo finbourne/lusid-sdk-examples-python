@@ -15,7 +15,7 @@ def default_scope(scope="class"):
 
 class TestReferencePortfolio:
     @pytest.mark.asyncio
-    @lusid_feature("F6-1")
+    
     async def test_create_reference_portfolio(
         self, id_generator, reference_portfolio_api
     ):
@@ -37,7 +37,7 @@ class TestReferencePortfolio:
         assert result.id.code == request.code
 
     @pytest.mark.asyncio
-    @lusid_feature("F6-2")
+    
     async def test_upsert_reference_portfolio_constituents(
         self, id_generator, reference_portfolio_api, instruments
     ):

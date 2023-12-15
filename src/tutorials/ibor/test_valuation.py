@@ -16,7 +16,7 @@ def default_scope(scope="class"):
 
 class TestValuation:
     @pytest.mark.asyncio
-    @lusid_feature("F10-5")
+    
     async def test_portfolio_aggregation(
         self,
         data_utilities,

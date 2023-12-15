@@ -16,7 +16,7 @@ def default_scope(scope="class"):
 
 class TestProperties:
     @pytest.mark.asyncio
-    @lusid_feature("F1-5")
+    
     async def test_create_portfolio_with_label_property(
         self,
         id_generator,
@@ -97,7 +97,7 @@ class TestProperties:
         assert label_property.value.label_value == property_value.label_value
 
     @pytest.mark.asyncio
-    @lusid_feature("F1-6")
+    
     async def test_create_portfolio_with_metric_property(
         self,
         id_generator,

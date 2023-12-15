@@ -18,7 +18,6 @@ async def default_scope():
 
 class TestCutLabels:
     @pytest.mark.asyncio
-    @lusid_feature("F16-1")
     async def test_cut_labels(
         self,
         id_generator,
