@@ -1,7 +1,6 @@
 import datetime
 import json
 
-from lusidfeature import lusid_feature
 
 import lusid
 import lusid.models as models

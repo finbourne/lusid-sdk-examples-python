@@ -1,6 +1,4 @@
 from datetime import datetime
-from parameterized import parameterized
-
 import pytz
 
 import lusid

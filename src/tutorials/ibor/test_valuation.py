@@ -3,7 +3,7 @@ from datetime import datetime
 import pytz
 
 import lusid.models as models
-from lusidfeature import lusid_feature
+
 
 from utilities import DataUtilities
 import pytest

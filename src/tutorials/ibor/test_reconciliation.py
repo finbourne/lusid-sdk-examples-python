@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 import pytz
-from lusidfeature import lusid_feature
+
 
 
 import lusid.models as models

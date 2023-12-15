@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 
 import pytz
-from lusidfeature import lusid_feature
+
 
 import lusid.models as models
 from utilities import DataUtilities

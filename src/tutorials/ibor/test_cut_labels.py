@@ -1,8 +1,6 @@
 import uuid
 from datetime import date, timedelta
 
-from lusidfeature import lusid_feature
-
 import lusid.models as models
 from lusid import ApiException
 from utilities import DataUtilities
